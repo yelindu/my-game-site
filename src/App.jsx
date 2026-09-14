@@ -2,112 +2,74 @@ import { useState } from 'react'
 import { games } from './gameCatalog.js'
 import GomokuGame from './games/gomoku/GomokuGame.jsx'
 
-const previewStones = [
-  ['black', 2, 2],
-  ['white', 3, 2],
-  ['black', 3, 3],
-  ['white', 2, 3],
-  ['black', 4, 4],
-  ['white', 4, 3],
-  ['black', 5, 5],
-]
-
-function BoardPreview() {
+function Lobby({ onSelectGame }) {
   return (
-    <div className="board" aria-label="五子棋棋盘预览">
-      {previewStones.map(([color, column, row], index) => (
-        <span
-          className={`stone stone--${color}`}
-          key={`${color}-${column}-${row}`}
-          style={{ '--column': column, '--row': row }}
-          aria-hidden="true"
-        />
-      ))}
-    </div>
+    <main className="lobby">
+      <header className="lobby__header">
+        <span className="lobby__mark" aria-hidden="true">游</span>
+        <h1>游戏合集</h1>
+      </header>
+
+      <p className="lobby__notice">
+        欢迎来到我的游戏小站，点击下方游戏即可开始。
+      </p>
+
+      <div className="collections">
+        <section className="collection" aria-labelledby="board-games-title">
+          <h2 id="board-games-title">桌游合集</h2>
+          <div className="game-list">
+            {games.map((game) => (
+              <button
+                className="game-link"
+                type="button"
+                key={game.id}
+                disabled={!game.available}
+                onClick={() => onSelectGame(game.id)}
+              >
+                <span className={`game-link__icon game-link__icon--${game.accent}`} aria-hidden="true">
+                  {game.name[0]}
+                </span>
+                <span>{game.name}</span>
+                {!game.available && <small>开发中</small>}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="collection" aria-labelledby="trial-games-title">
+          <h2 id="trial-games-title">试玩合集</h2>
+          <div className="game-list">
+            <a className="game-link" href="./trials/catch-fish-kill-bears/index.html">
+              <span className="game-link__icon game-link__icon--blue" aria-hidden="true">捕</span>
+              <span>捕鱼杀熊</span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
   )
 }
 
 function App() {
   const [activeGame, setActiveGame] = useState(null)
 
+  if (!activeGame) {
+    return <Lobby onSelectGame={setActiveGame} />
+  }
+
   return (
     <div className="site-shell">
       <header className="topbar">
         <button className="brand brand--button" type="button" onClick={() => setActiveGame(null)} aria-label="返回首页">
-          <span className="brand__mark" aria-hidden="true">棋</span>
-          <span>我的游戏小站</span>
+          <span className="brand__mark" aria-hidden="true">游</span>
+          <span>游戏合集</span>
         </button>
-        {activeGame ? (
-          <button className="nav-back" type="button" onClick={() => setActiveGame(null)}>返回大厅</button>
-        ) : (
-          <nav aria-label="主要导航">
-            <a href="#games">游戏大厅</a>
-            <a href="#about">关于本站</a>
-          </nav>
-        )}
+        <button className="nav-back" type="button" onClick={() => setActiveGame(null)}>返回大厅</button>
       </header>
 
-      {activeGame === 'gomoku' ? (
-        <main>
-          <GomokuGame onBack={() => setActiveGame(null)} />
-        </main>
-      ) : (
-      <main id="top">
-        <section className="hero" aria-labelledby="hero-title">
-          <div className="hero__copy">
-            <p className="eyebrow">随时开局 · 轻松对弈</p>
-            <h1 id="hero-title">来一盘，<br />把日常放慢一点。</h1>
-            <p className="hero__intro">
-              这里会收集适合和朋友一起玩的棋类小游戏。第一站，从五子棋开始。
-            </p>
-            <a className="primary-button" href="#games">看看游戏</a>
-          </div>
-          <div className="hero__visual">
-            <BoardPreview />
-            <p>黑方落子 · 对局预览</p>
-          </div>
-        </section>
-
-        <section className="games-section" id="games" aria-labelledby="games-title">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">游戏大厅</p>
-              <h2 id="games-title">选择一场对局</h2>
-            </div>
-            <p>五子棋本地双人版已经开放，叫上身边的朋友来一局。</p>
-          </div>
-
-          <div className="game-grid">
-            {games.map((game, index) => (
-              <article className={`game-card game-card--${game.accent}`} key={game.id}>
-                <div className="game-card__number">0{index + 1}</div>
-                <div>
-                  <span className="status">{game.status}</span>
-                  <h3>{game.name}</h3>
-                  <p>{game.description}</p>
-                </div>
-                <button
-                  type="button"
-                  disabled={!game.available}
-                  onClick={() => game.available && setActiveGame(game.id)}
-                >
-                  {game.available ? '开始游戏 →' : '等待开放'}
-                </button>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="about" id="about" aria-labelledby="about-title">
-          <p className="eyebrow">关于本站</p>
-          <h2 id="about-title">一个持续生长的个人游戏空间</h2>
-          <p>
-            先把一款游戏做好，再逐步增加在线房间、对局记录和更多棋类游戏。
-            网站会保持简单、好用，并兼顾手机和电脑。
-          </p>
-        </section>
+      <main>
+        {activeGame === 'gomoku' && <GomokuGame onBack={() => setActiveGame(null)} />}
       </main>
-      )}
 
       <footer>
         <span>© {new Date().getFullYear()} 我的游戏小站</span>
