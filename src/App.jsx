@@ -41,7 +41,7 @@ function Lobby({ onSelectGame }) {
           <div className="game-list">
             <a className="game-link" href="./trials/catch-fish-kill-bears/index.html">
               <span className="game-link__icon game-link__icon--blue" aria-hidden="true">捕</span>
-              <span>捕鱼杀熊</span>
+              <span>营地捕鱼</span>
             </a>
           </div>
         </section>
