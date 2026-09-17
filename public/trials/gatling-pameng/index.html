@@ -35,9 +35,30 @@
   <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
 
   <link rel="stylesheet" type="text/css" href="style.css"/>
+  <style>
+    .home-link {
+      position: fixed;
+      z-index: 2147483647;
+      top: calc(env(safe-area-inset-top, 0px) + 12px);
+      left: calc(env(safe-area-inset-left, 0px) + 12px);
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #111;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      font: 600 14px/24px system-ui, sans-serif;
+      text-decoration: none;
+    }
+
+    .home-link:focus-visible {
+      outline: 3px solid #2f80ed;
+      outline-offset: 2px;
+    }
+  </style>
 
 </head>
 <body>
+  <a class="home-link" href="../../" aria-label="返回游戏合集主页">← 返回主页</a>
   <div id="GameDiv" cc_exact_fit_screen="true">
       <div id="Cocos3dGameContainer">
         <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="99"></canvas>
