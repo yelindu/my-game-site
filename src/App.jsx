@@ -43,6 +43,10 @@ function Lobby({ onSelectGame }) {
               <span className="game-link__icon game-link__icon--blue" aria-hidden="true">捕</span>
               <span>营地捕鱼</span>
             </a>
+            <a className="game-link" href="./trials/gatling-pameng/index.html">
+              <span className="game-link__icon game-link__icon--red" aria-hidden="true">萌</span>
+              <span>加特林帕萌</span>
+            </a>
           </div>
         </section>
       </div>
