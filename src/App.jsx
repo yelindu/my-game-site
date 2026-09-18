@@ -47,6 +47,10 @@ function Lobby({ onSelectGame }) {
               <span className="game-link__icon game-link__icon--red" aria-hidden="true">萌</span>
               <span>加特林帕萌</span>
             </a>
+            <a className="game-link" href="./trials/forge-sword-kill-bears/index.html">
+              <span className="game-link__icon game-link__icon--blue" aria-hidden="true">铸</span>
+              <span>铸剑战大熊</span>
+            </a>
           </div>
         </section>
       </div>

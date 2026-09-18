@@ -1,0 +1,69 @@
+
+shitougongji1.png
+size: 896,1016
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: true
+  xy: 819, 717
+  size: 297, 75
+  orig: 302, 80
+  offset: 3, 3
+  index: -1
+2
+  rotate: false
+  xy: 510, 8
+  size: 375, 117
+  orig: 381, 122
+  offset: 3, 3
+  index: -1
+3
+  rotate: false
+  xy: 2, 2
+  size: 506, 184
+  orig: 511, 191
+  offset: 3, 4
+  index: -1
+4
+  rotate: false
+  xy: 2, 188
+  size: 566, 196
+  orig: 571, 203
+  offset: 3, 4
+  index: -1
+5
+  rotate: false
+  xy: 2, 596
+  size: 625, 215
+  orig: 630, 220
+  offset: 2, 2
+  index: -1
+6
+  rotate: false
+  xy: 2, 813
+  size: 641, 201
+  orig: 648, 206
+  offset: 3, 2
+  index: -1
+7
+  rotate: false
+  xy: 2, 386
+  size: 615, 208
+  orig: 621, 213
+  offset: 2, 3
+  index: -1
+8
+  rotate: true
+  xy: 619, 127
+  size: 440, 169
+  orig: 448, 176
+  offset: 3, 4
+  index: -1
+shitou
+  rotate: true
+  xy: 645, 569
+  size: 445, 172
+  orig: 448, 174
+  offset: 2, 1
+  index: -1
