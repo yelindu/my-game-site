@@ -51,6 +51,18 @@ function Lobby({ onSelectGame }) {
               <span className="game-link__icon game-link__icon--blue" aria-hidden="true">铸</span>
               <span>铸剑战大熊</span>
             </a>
+            <a className="game-link" href="./trials/jian-yu/index.html">
+              <span className="game-link__icon game-link__icon--blue" aria-hidden="true">捡</span>
+              <span>捡鱼</span>
+            </a>
+            <a className="game-link" href="./trials/xiaoche-yunmu/index.html">
+              <span className="game-link__icon game-link__icon--red" aria-hidden="true">车</span>
+              <span>小车运木</span>
+            </a>
+            <a className="game-link" href="./trials/bu-yu-sha-xiong/index.html">
+              <span className="game-link__icon game-link__icon--red" aria-hidden="true">鱼</span>
+              <span>捕鱼杀熊</span>
+            </a>
           </div>
         </section>
       </div>
