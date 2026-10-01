@@ -26,7 +26,7 @@
 - [x] RLS 与数据库落子校验脚本及本地 PostgreSQL 验证
 - [x] 云端执行迁移并开启匿名登录
 - [x] 完成真实 Supabase 双客户端与 Realtime 验证
-- [ ] 配置 GitHub Actions 联机变量并发布
+- [x] 配置 GitHub Actions 联机变量并发布
 - [ ] 发布后的两台设备对战验收
 
 ## 0.4 发布完善
