@@ -6,9 +6,11 @@ export function normalizeRoomCode(value) {
   return code
 }
 
-export function invitationUrl(href, code) {
+export function invitationUrl(href, code, game = 'gomoku') {
   const url = new URL(href)
   url.searchParams.set('room', normalizeRoomCode(code))
+  if (game === 'xiangqi') url.searchParams.set('game', 'xiangqi')
+  else url.searchParams.delete('game')
   url.hash = ''
   return url.href
 }
@@ -45,6 +47,9 @@ export function onlineError(error) {
   if (/it is not your turn/.test(message)) return '还没轮到你，请等待对方落子。'
   if (/already occupied/.test(message)) return '这个位置已经有棋子，请选择空位。'
   if (/not playable/.test(message)) return '对局尚未开始或已经结束。'
+  if (/illegal xiangqi move/.test(message)) return '这步不能走，请按棋子的走法移动并确保将帅安全。'
+  if (/stale position/.test(message)) return '棋盘已经更新，请重新连接后再走棋。'
+  if (/draw offer|draw action/.test(message)) return '和棋请求已变化，请按最新对局状态操作。'
   if (/anonymous.*disabled/i.test(message)) return '在线服务尚未开启游客登录，请联系站点管理员。'
   if (/PGRST20[25]|42P01/.test(error?.code || '')) return '在线服务尚未完成初始化，请联系站点管理员。'
   if (/fetch|network|timeout|abort/i.test(message)) return '网络连接中断或超时。提交可能已完成，请重新连接核实棋盘后再操作。'

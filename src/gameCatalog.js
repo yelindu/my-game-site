@@ -10,7 +10,7 @@ export const games = [
   {
     id: 'xiangqi',
     name: '中国象棋',
-    description: '红方先行的本地双人中国象棋，支持合法走法提示、将军判定、悔棋和重开。',
+    description: '中国象棋，支持本地双人与邀请朋友在线对战、合法走法提示和将军判定。',
     status: '可以试玩',
     accent: 'red',
     available: true,

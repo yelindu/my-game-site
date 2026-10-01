@@ -43,16 +43,17 @@ src/games/gomoku/
 └─ gomoku.test.js       # 规则的最小单元测试
 ```
 
-在线客户端位于 `src/services/supabase.js`。五子棋房间状态和界面分别在 `src/games/gomoku/useOnlineRoom.js`、`OnlineGomoku.jsx`，复用现有棋盘，没有额外全局状态库或房间框架。
+在线客户端位于 `src/services/supabase.js`。五子棋与象棋共用 `src/services/useOnlineRoom.js` 的同步、重连与提交逻辑，以及 `src/components/OnlineRoomPanel.jsx` 的邀请入口；各游戏提供接口名称、参数及快照解码。
 
-中国象棋位于 `src/games/xiangqi/`：`xiangqi.js` 是纯规则函数，`XiangqiGame.jsx` 负责本地双人交互，`xiangqi.css` 绘制响应式棋盘与棋子。九宫、河界和棋盘线使用内联 SVG，不引入棋类或绘图库。
+中国象棋位于 `src/games/xiangqi/`：`xiangqi.js` 是纯规则函数，`XiangqiGame.jsx` 复用本地与在线棋盘，`OnlineXiangqi.jsx` 负责在线轮次与和棋协商。九宫、河界和棋盘线使用内联 SVG，不引入棋类或绘图库。
 
 ## 状态边界
 
 1. 棋盘规则是纯 JavaScript，不依赖 React 和网络，方便测试与复用。
 2. React 组件负责展示、输入和页面状态。
-3. 在线服务只负责身份、房间、落子提交和订阅，不复制游戏规则。
-4. 数据库函数负责原子校验“轮到谁、格子是否为空、对局是否结束”，避免两位玩家同时落子造成冲突。
+3. 客户端在线服务负责身份、房间、提交和订阅，收到原子快照后校验并显示棋盘，不提前修改棋盘。
+4. 数据库函数锁住房间并校验轮次、合法走法与胜负；象棋额外校验客户端看到的走棋版本，拒绝重复或过期提交。
+5. 象棋独立使用 `xiangqi_rooms`、`xiangqi_moves`，沿用游客身份，不改动五子棋数据。数据库规则与 JavaScript 规则通过完整合法走法对照测试保持一致。
 
 ## GitHub Pages 约束
 

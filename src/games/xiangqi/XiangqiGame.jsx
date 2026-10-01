@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { agreeDraw, createGame, isInCheck, legalMoves, pieceNames, playMove, sideNames, undoMove } from './xiangqi.js'
 import './xiangqi.css'
 
@@ -18,11 +18,13 @@ function BoardLines() {
   )
 }
 
-export default function XiangqiGame({ onBack }) {
-  const [game, setGame] = useState(createGame)
+export default function XiangqiGame({ onBack, onOnline, online, children }) {
+  const [localGame, setGame] = useState(createGame)
+  const game = online ? online.game : localGame
   const [selected, setSelected] = useState(null)
   const [message, setMessage] = useState('')
   const [confirmation, setConfirmation] = useState(null)
+  useEffect(() => { setSelected(null); setMessage('') }, [game.history.length, game.winner, online?.connection, online?.roomId])
   const destinations = selected === null ? [] : legalMoves(game.board, selected)
   const checked = !game.winner && isInCheck(game.board, game.currentPlayer)
   const last = game.history.at(-1)
@@ -30,9 +32,10 @@ export default function XiangqiGame({ onBack }) {
   let status = `轮到${sideNames[game.currentPlayer]}${checked ? '应将' : '走棋'}`
   if (game.winner === 'draw') status = '双方同意，本局和棋'
   else if (game.winner) status = `${sideNames[game.winner]}获胜 · ${game.reason === 'checkmate' ? '将死' : '困毙'}`
+  if (online) status = online.status
 
   function choose(index) {
-    if (game.winner) return
+    if (game.winner || (online && !online.canMove)) return
     setConfirmation(null)
     setMessage('')
     if (game.board[index]?.side === game.currentPlayer) {
@@ -40,7 +43,11 @@ export default function XiangqiGame({ onBack }) {
     } else if (selected !== null) {
       const next = playMove(game, selected, index)
       if (next === game) setMessage('这步不能走：请按棋子的走法移动，并确保己方将帅安全。')
-      else { setGame(next); setSelected(null) }
+      else {
+        if (online) void online.move(selected, index)
+        else setGame(next)
+        setSelected(null)
+      }
     } else setMessage('请先选择当前一方的棋子。')
   }
   function replace(next) { setGame(next); setSelected(null); setMessage(''); setConfirmation(null) }
@@ -50,10 +57,10 @@ export default function XiangqiGame({ onBack }) {
       <div className="game-screen__heading">
         <div>
           <button className="text-button" type="button" onClick={onBack}>← 返回游戏大厅</button>
-          <p className="eyebrow">本地双人 · 红方先行</p>
+          <p className="eyebrow">{online ? '在线双人' : '本地双人'} · 红方先行</p>
           <h1 id="xiangqi-title">中国象棋</h1>
         </div>
-        <p>两人使用同一台设备轮流走棋。先点自己的棋子，再点标记的位置移动或吃子。</p>
+        <p>{online ? '邀请朋友在各自设备上对弈。' : '两人使用同一台设备轮流走棋。'}先点自己的棋子，再点标记的位置移动或吃子。</p>
       </div>
       <div className="game-stage">
         <div className="xiangqi-board-wrap">
@@ -62,7 +69,7 @@ export default function XiangqiGame({ onBack }) {
             {game.board.map((piece, index) => {
               const canMove = destinations.includes(index)
               return (
-                <button type="button" role="gridcell" key={index} disabled={Boolean(game.winner)}
+                <button type="button" role="gridcell" key={index} disabled={Boolean(game.winner) || Boolean(online && !online.canMove)}
                   className={`xiangqi-cell${index === selected ? ' xiangqi-cell--selected' : ''}${canMove ? ' xiangqi-cell--legal' : ''}${index === last?.to || index === last?.from ? ' xiangqi-cell--last' : ''}`}
                   aria-label={`第 ${Math.floor(index / 9) + 1} 行，第 ${index % 9 + 1} 列，${piece ? sideNames[piece.side] + pieceNames[piece.side][piece.type] : '空位'}${canMove ? '，可走' : ''}`}
                   aria-selected={index === selected} onClick={() => choose(index)}>
@@ -84,7 +91,8 @@ export default function XiangqiGame({ onBack }) {
             <div><dt>红方剩余</dt><dd>{game.board.filter((p) => p?.side === 'red').length} 子</dd></div>
             <div><dt>黑方剩余</dt><dd>{game.board.filter((p) => p?.side === 'black').length} 子</dd></div>
           </dl>
-          <div className="game-actions">
+          {!online && <div className="game-actions">
+            {onOnline && <button className="control-button control-button--primary" type="button" onClick={onOnline}>与朋友在线对战</button>}
             <button className="control-button control-button--primary" type="button" disabled={!game.history.length} onClick={() => replace(undoMove(game))}>悔棋一步</button>
             <button className="control-button" type="button" onClick={() => game.history.length ? setConfirmation('restart') : replace(createGame())}>重新开始</button>
             <button className="control-button" type="button" disabled={Boolean(game.winner)} onClick={() => setConfirmation('draw')}>双方同意和棋</button>
@@ -93,13 +101,14 @@ export default function XiangqiGame({ onBack }) {
               <button className="control-button" type="button" onClick={() => replace(confirmation === 'draw' ? agreeDraw(game) : createGame())}>{confirmation === 'draw' ? '确认和棋' : '确认重开'}</button>
               <button className="control-button" type="button" onClick={() => setConfirmation(null)}>取消</button>
             </div>}
-          </div>
+          </div>}
+          {children}
           <div className="rule-note">
             <strong>走棋规则</strong>
             <p>车走直线；马走日、象走田，注意马腿与象眼；炮隔一子吃子；兵卒过河后可横走，不能后退。士与将帅不出九宫，象不过河。</p>
             <p>被将军时必须应将，不能送将或让将帅照面。将死或无合法走法（困毙）判负。</p>
-            <p>本地休闲对局，长将、长捉和重复局面由双方协商，可选择“双方同意和棋”。</p>
-            <p>本局保存在当前页面，刷新或返回大厅后会重新开局。</p>
+            <p>休闲对局，长将、长捉和重复局面由双方协商，可{online ? '请求和棋，由对方确认' : '选择“双方同意和棋”'}。</p>
+            <p>{online ? '对局自动保存，刷新后可通过当前邀请恢复。联机暂不支持悔棋，新一局请创建新房间。' : '本局保存在当前页面，刷新或返回大厅后会重新开局。'}</p>
           </div>
         </aside>
       </div>

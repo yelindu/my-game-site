@@ -10,7 +10,8 @@
     "test": "node --test",
     "db:prepare": "node scripts/prepare-gomoku-sql.mjs",
     "test:online": "node --env-file=.env.local scripts/check-gomoku-online.mjs",
-    "test:render": "node scripts/check-gomoku-render.mjs"
+    "test:render": "node scripts/check-gomoku-render.mjs",
+    "test:xiangqi-online": "node --env-file=.env.local scripts/check-xiangqi-online.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

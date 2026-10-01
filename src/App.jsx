@@ -3,6 +3,7 @@ import { games } from './gameCatalog.js'
 import GomokuGame from './games/gomoku/GomokuGame.jsx'
 import OnlineGomoku from './games/gomoku/OnlineGomoku.jsx'
 import XiangqiGame from './games/xiangqi/XiangqiGame.jsx'
+import OnlineXiangqi from './games/xiangqi/OnlineXiangqi.jsx'
 
 function Lobby({ onSelectGame }) {
   return (
@@ -73,11 +74,15 @@ function Lobby({ onSelectGame }) {
 }
 
 function App() {
-  const [activeGame, setActiveGame] = useState(() => new URLSearchParams(window.location.search).has('room') ? 'gomoku-online' : null)
+  const [activeGame, setActiveGame] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    return params.has('room') ? params.get('game') === 'xiangqi' ? 'xiangqi-online' : 'gomoku-online' : null
+  })
 
   function returnToLobby() {
     const url = new URL(window.location.href)
     url.searchParams.delete('room')
+    url.searchParams.delete('game')
     window.history.replaceState(null, '', url)
     setActiveGame(null)
   }
@@ -99,7 +104,8 @@ function App() {
       <main>
         {activeGame === 'gomoku' && <GomokuGame onBack={returnToLobby} onOnline={() => setActiveGame('gomoku-online')} />}
         {activeGame === 'gomoku-online' && <OnlineGomoku onBack={returnToLobby} onLocal={() => setActiveGame('gomoku')} />}
-        {activeGame === 'xiangqi' && <XiangqiGame onBack={returnToLobby} />}
+        {activeGame === 'xiangqi' && <XiangqiGame onBack={returnToLobby} onOnline={() => setActiveGame('xiangqi-online')} />}
+        {activeGame === 'xiangqi-online' && <OnlineXiangqi onBack={returnToLobby} onLocal={() => setActiveGame('xiangqi')} />}
       </main>
 
       <footer>
