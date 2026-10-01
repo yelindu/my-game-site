@@ -469,6 +469,10 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .game-panel:has(.room-panel) {
+    grid-template-columns: 1fr;
+  }
+
   .turn-card,
   .rule-note {
     grid-column: 1 / -1;
