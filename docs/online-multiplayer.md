@@ -55,7 +55,7 @@
 
 ## 数据库迁移
 
-中国象棋沿用同一 Supabase 项目的游客身份与发布环境变量，独立使用 `xiangqi_rooms`、`xiangqi_moves`。现有项目只需追加执行 `20261001010000_xiangqi_rooms.sql` 一次，不重跑五子棋初始化。象棋邀请带 `game=xiangqi`，详细玩法及验证见 [中国象棋说明](xiangqi.md)。
+中国象棋沿用同一 Supabase 项目的游客身份与发布环境变量，独立使用 `xiangqi_rooms`、`xiangqi_moves`。先执行 `20261001010000_xiangqi_rooms.sql`，再追加 `20261001020000_xiangqi_lobby.sql`，不重跑五子棋初始化。后者增加房间成员、昵称、选座、离座观战和房主开始，保留已有对局。象棋邀请带 `game=xiangqi`，打开后自动进入房间；详细玩法及验证见 [中国象棋说明](xiangqi.md)。
 
 首个可执行迁移位于 `supabase/migrations/20260829170000_gomoku_rooms.sql`。它建立房间与落子表、启用 RLS、限制直接写入，并只向已登录玩家开放创建房间、加入房间和落子的数据库函数。
 

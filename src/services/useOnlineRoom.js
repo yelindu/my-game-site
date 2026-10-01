@@ -152,7 +152,7 @@ export default function useOnlineRoom(config) {
   }
 
   return {
-    room: snapshot?.room, game: snapshot?.game || config.initial(), user,
+    room: snapshot?.room, game: snapshot?.game || config.initial(), nickname: snapshot?.nickname, user,
     roomId, busy, error, connection, enterRoom, leave, submit,
     move: (...args) => submit(config.play, config.moveParameters(snapshot?.room, ...args)),
     reconnect: () => setReconnect((value) => value + 1),

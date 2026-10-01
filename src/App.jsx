@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { games } from './gameCatalog.js'
 import GomokuGame from './games/gomoku/GomokuGame.jsx'
 import OnlineGomoku from './games/gomoku/OnlineGomoku.jsx'
-import XiangqiGame from './games/xiangqi/XiangqiGame.jsx'
-import OnlineXiangqi from './games/xiangqi/OnlineXiangqi.jsx'
+import XiangqiHub from './games/xiangqi/XiangqiHub.jsx'
 
 function Lobby({ onSelectGame }) {
   return (
@@ -91,6 +90,10 @@ function App() {
     return <Lobby onSelectGame={setActiveGame} />
   }
 
+  if (activeGame === 'xiangqi' || activeGame === 'xiangqi-online') {
+    return <XiangqiHub onBack={returnToLobby} initialOnline={activeGame === 'xiangqi-online'} />
+  }
+
   return (
     <div className="site-shell">
       <header className="topbar">
@@ -104,8 +107,6 @@ function App() {
       <main>
         {activeGame === 'gomoku' && <GomokuGame onBack={returnToLobby} onOnline={() => setActiveGame('gomoku-online')} />}
         {activeGame === 'gomoku-online' && <OnlineGomoku onBack={returnToLobby} onLocal={() => setActiveGame('gomoku')} />}
-        {activeGame === 'xiangqi' && <XiangqiGame onBack={returnToLobby} onOnline={() => setActiveGame('xiangqi-online')} />}
-        {activeGame === 'xiangqi-online' && <OnlineXiangqi onBack={returnToLobby} onLocal={() => setActiveGame('xiangqi')} />}
       </main>
 
       <footer>

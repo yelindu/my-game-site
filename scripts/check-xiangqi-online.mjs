@@ -24,14 +24,16 @@ try {
     if (error) throw error
   }
   const [red, black, outsider] = clients
-  const { room_id: id, room_code: code } = (await rpc(red, 'create_xiangqi_room'))[0]
+  const { room_id: id, room_code: code } = (await rpc(red, 'create_xiangqi_lobby'))[0]
   console.log(`Created xiangqi test room ${code}.`)
   const snapshot = client => rpc(client, 'get_xiangqi_snapshot', { target_room_id: id })
   const move = (client, from, to, version) => rpc(client, 'play_xiangqi_move', { target_room_id: id, source_index: from, target_index: to, expected_move_number: version })
   const draw = (client, action) => rpc(client, 'xiangqi_draw', { target_room_id: id, action })
-  assert.equal(await rpc(black, 'join_xiangqi_room', { invite_code: code.toLowerCase() }), id)
-  assert.equal(await rpc(red, 'join_xiangqi_room', { invite_code: code }), id)
-  await assert.rejects(rpc(outsider, 'join_xiangqi_room', { invite_code: code }))
+  const lobby = (client, action, extra = {}) => rpc(client, 'xiangqi_lobby_action', { target_room_id: id, action, ...extra })
+  assert.equal(await rpc(black, 'enter_xiangqi_lobby', { invite_code: code.toLowerCase() }), id)
+  assert.equal(await rpc(red, 'enter_xiangqi_lobby', { invite_code: code }), id)
+  assert.equal((await snapshot(red)).room.red_player_id, null)
+  await assert.rejects(lobby(red, 'start'))
   assert.equal(await snapshot(outsider), null)
   for (const table of ['xiangqi_rooms', 'xiangqi_moves']) {
     const read = await outsider.from(table).select('*')
@@ -39,6 +41,15 @@ try {
     assert.deepEqual(read.data, [])
   }
   assert.ok((await red.from('xiangqi_rooms').update({ current_turn: 'black' }).eq('id', id)).error)
+  await lobby(red, 'name', { nickname: '红棋友' })
+  await lobby(red, 'seat', { seat: 'red' })
+  await assert.rejects(lobby(black, 'seat', { seat: 'red' }))
+  await lobby(red, 'leave')
+  await lobby(red, 'seat', { seat: 'red' })
+  await lobby(black, 'seat', { seat: 'black' })
+  assert.equal((await snapshot(black)).room.status, 'waiting')
+  await assert.rejects(lobby(black, 'start'))
+  await lobby(red, 'start')
   await assert.rejects(move(black, 27, 36, 0))
   await assert.rejects(move(red, 54, 55, 0))
   let resolveEvent, rejectEvent
@@ -69,11 +80,15 @@ try {
   await draw(black, 'offer')
   await draw(red, 'accept')
   const a = await snapshot(red), b = await snapshot(black)
-  assert.deepEqual(a, b)
+  assert.deepEqual(a.room, b.room)
+  assert.deepEqual(a.moves, b.moves)
+  assert.equal(await rpc(outsider, 'enter_xiangqi_lobby', { invite_code: code }), id)
+  assert.deepEqual((await snapshot(outsider)).moves, a.moves)
+  await assert.rejects(move(outsider, 56, 47, 2))
   assert.equal(gameFromSnapshot(a).winner, 'draw')
   assert.equal(a.room.status, 'finished')
   await assert.rejects(move(red, 56, 47, 2))
-  console.log('PASS: real identities, create/join/resume, RLS and direct-write rejection, Realtime delivery, legal/turn/version validation, mutual draw, identical snapshots.')
+  console.log('PASS: real lobby, name/seat/leave, host-only start, privacy before joining, spectators, direct-write rejection, Realtime, legal/turn/version validation, draw and matching boards.')
   console.log('The finished test room and test identities remain; no user data was deleted.')
 } catch (failure) {
   console.error(`FAIL: ${failure.message}`)
