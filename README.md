@@ -5,8 +5,10 @@
 ## 当前状态
 
 - 已完成：网站骨架、响应式游戏大厅、五子棋本地双人版、GitHub Pages 工作流和项目文档。
-- 下一步：发布到 GitHub Pages，然后接入在线房间。
-- 暂未接入：Supabase、在线房间、账号、排行与聊天。
+- 已实现：Supabase 匿名身份、在线房间入口、邀请链接、服务端落子、实时订阅和重连恢复。
+- 已验证：Supabase 云端数据层、匿名登录、双客户端实时落子和胜负结算、网页刷新恢复；GitHub Actions 联机变量已配置。
+- 待验收：发布后的两台实体设备对战。
+- 暂不提供：在线悔棋、同房间重开、账号注册、排行与聊天。
 
 ## 本地启动
 
@@ -43,3 +45,5 @@ npm run preview
 2. 打开仓库 `Settings > Pages`。
 3. 将 `Build and deployment > Source` 设置为 `GitHub Actions`。
 4. 后续每次推送到 `main`，工作流会自动构建并发布。
+
+在线房间还需完成 [在线部署说明](docs/online-multiplayer.md)：初始化 Supabase、开启匿名登录，并设置 GitHub Actions 的 `VITE_SUPABASE_URL` 仓库变量和 `VITE_SUPABASE_ANON_KEY` 仓库 Secret。本地 `.env.local` 不会上传到 GitHub。

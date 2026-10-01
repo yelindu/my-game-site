@@ -19,8 +19,9 @@ function gameStatus(game) {
   return `轮到${playerNames[game.currentPlayer]}落子`
 }
 
-function GomokuGame({ onBack }) {
-  const [game, setGame] = useState(createGame)
+function GomokuGame({ onBack, onOnline, online = null, children }) {
+  const [localGame, setGame] = useState(createGame)
+  const game = online?.game || localGame
   const lastMove = game.history.at(-1)
 
   function restart() {
@@ -34,11 +35,15 @@ function GomokuGame({ onBack }) {
       <div className="game-screen__heading">
         <div>
           <button className="text-button" type="button" onClick={onBack}>← 返回游戏大厅</button>
-          <p className="eyebrow">本地双人</p>
+          <p className="eyebrow">{online ? '在线对战' : '本地双人'}</p>
           <h1 id="gomoku-title">五子棋</h1>
         </div>
-        <p>双方使用同一台设备轮流落子，率先连成五子者获胜。</p>
+        <p>{online ? '分享房间邀请，与朋友各用一台设备对战。黑方先手，率先连成五子者获胜。' : '双方使用同一台设备轮流落子，率先连成五子者获胜。'}</p>
       </div>
+
+      {!online && <button className="control-button mode-button" type="button" onClick={onOnline}>与朋友在线对战 →</button>}
+
+      {children}
 
       <div className="game-stage">
         <div className="gomoku-board-wrap">
@@ -59,8 +64,8 @@ function GomokuGame({ onBack }) {
                   type="button"
                   role="gridcell"
                   key={index}
-                  disabled={Boolean(cell) || Boolean(game.winner)}
-                  onClick={() => setGame((current) => playMove(current, row, column))}
+                  disabled={Boolean(cell) || Boolean(game.winner) || Boolean(online && !online.canMove)}
+                  onClick={() => online ? online.move(row, column) : setGame((current) => playMove(current, row, column))}
                   aria-label={`第 ${row + 1} 行，第 ${column + 1} 列${cell ? `，${playerNames[cell]}棋子` : '，空位'}`}
                 >
                   {cell && (
@@ -80,7 +85,7 @@ function GomokuGame({ onBack }) {
             <span className="turn-card__stone" aria-hidden="true" />
             <div>
               <span>当前状态</span>
-              <strong aria-live="polite">{gameStatus(game)}</strong>
+              <strong aria-live="polite">{online ? online.status : gameStatus(game)}</strong>
             </div>
           </div>
 
@@ -99,7 +104,7 @@ function GomokuGame({ onBack }) {
             </div>
           </dl>
 
-          <div className="game-actions">
+          {!online && <div className="game-actions">
             <button
               className="control-button control-button--primary"
               type="button"
@@ -111,7 +116,7 @@ function GomokuGame({ onBack }) {
             <button className="control-button" type="button" onClick={restart}>
               重新开始
             </button>
-          </div>
+          </div>}
 
           <div className="rule-note">
             <strong>游戏规则</strong>

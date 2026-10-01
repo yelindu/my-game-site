@@ -2,7 +2,7 @@ export const games = [
   {
     id: 'gomoku',
     name: '五子棋',
-    description: '15 × 15 自由五子棋，支持本地双人、悔棋与重开。',
+    description: '15 × 15 自由五子棋，支持本地双人与邀请朋友在线对战。',
     status: '可以试玩',
     accent: 'dark',
     available: true,

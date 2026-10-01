@@ -43,7 +43,7 @@ src/games/gomoku/
 └─ gomoku.test.js       # 规则的最小单元测试
 ```
 
-在线房间落地时，再新增 `src/services/supabase.js` 和 `src/features/rooms/`。不提前创建空文件夹。
+在线客户端位于 `src/services/supabase.js`。五子棋房间状态和界面分别在 `src/games/gomoku/useOnlineRoom.js`、`OnlineGomoku.jsx`，复用现有棋盘，没有额外全局状态库或房间框架。
 
 ## 状态边界
 

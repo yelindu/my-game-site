@@ -1,0 +1,237 @@
+-- First online Gomoku slice: private two-player rooms and server-validated moves.
+
+begin;
+
+create table public.rooms (
+  id uuid primary key default gen_random_uuid(),
+  code text not null unique check (code ~ '^[A-Z0-9]{8}$'),
+  game_type text not null default 'gomoku' check (game_type = 'gomoku'),
+  status text not null default 'waiting' check (status in ('waiting', 'playing', 'finished')),
+  black_player_id uuid not null references auth.users (id) on delete cascade,
+  white_player_id uuid references auth.users (id) on delete set null,
+  current_turn text not null default 'black' check (current_turn in ('black', 'white')),
+  winner text check (winner in ('black', 'white', 'draw')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (white_player_id is null or white_player_id <> black_player_id),
+  check (
+    (status = 'waiting' and white_player_id is null and winner is null)
+    or (status = 'playing' and white_player_id is not null and winner is null)
+    or (status = 'finished' and white_player_id is not null and winner is not null)
+  )
+);
+
+create table public.moves (
+  id bigint generated always as identity primary key,
+  room_id uuid not null references public.rooms (id) on delete cascade,
+  player_id uuid not null references auth.users (id) on delete cascade,
+  position_x smallint not null check (position_x between 0 and 14),
+  position_y smallint not null check (position_y between 0 and 14),
+  move_number smallint not null check (move_number between 1 and 225),
+  created_at timestamptz not null default now(),
+  unique (room_id, move_number),
+  unique (room_id, position_x, position_y)
+);
+
+create index moves_room_id_created_at_idx on public.moves (room_id, created_at);
+
+alter table public.rooms enable row level security;
+alter table public.moves enable row level security;
+
+create policy "players can read their rooms"
+on public.rooms for select to authenticated
+using (auth.uid() in (black_player_id, white_player_id));
+
+create policy "players can read moves in their rooms"
+on public.moves for select to authenticated
+using (
+  exists (
+    select 1 from public.rooms
+    where rooms.id = moves.room_id
+      and auth.uid() in (rooms.black_player_id, rooms.white_player_id)
+  )
+);
+
+revoke all on public.rooms, public.moves from anon, authenticated;
+grant select on public.rooms, public.moves to authenticated;
+
+create or replace function public.create_gomoku_room()
+returns table (room_id uuid, room_code text)
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'sign in before creating a room';
+  end if;
+
+  return query
+  insert into public.rooms (code, black_player_id)
+  values (
+    upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 8)),
+    auth.uid()
+  )
+  returning id, code;
+end;
+$$;
+
+create or replace function public.join_gomoku_room(invite_code text)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  joined_room_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'sign in before joining a room';
+  end if;
+
+  update public.rooms
+  set
+    white_player_id = auth.uid(),
+    status = 'playing',
+    updated_at = now()
+  where code = upper(trim(invite_code))
+    and status = 'waiting'
+    and white_player_id is null
+    and black_player_id <> auth.uid()
+  returning id into joined_room_id;
+
+  if joined_room_id is null then
+    raise exception 'room is unavailable';
+  end if;
+
+  return joined_room_id;
+end;
+$$;
+
+create or replace function public.play_gomoku_move(
+  target_room_id uuid,
+  target_x smallint,
+  target_y smallint
+)
+returns table (
+  played_move_number smallint,
+  room_status text,
+  next_turn text,
+  game_winner text
+)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  room public.rooms%rowtype;
+  player_side text;
+  new_move_number smallint;
+  direction_x integer;
+  direction_y integer;
+  window_start integer;
+  stones_in_window integer;
+  won boolean := false;
+begin
+  if auth.uid() is null then
+    raise exception 'sign in before playing';
+  end if;
+
+  if target_x not between 0 and 14 or target_y not between 0 and 14 then
+    raise exception 'move is outside the board';
+  end if;
+
+  select * into room
+  from public.rooms
+  where id = target_room_id
+  for update;
+
+  if not found or room.status <> 'playing' then
+    raise exception 'game is not playable';
+  end if;
+
+  player_side := case
+    when room.black_player_id = auth.uid() then 'black'
+    when room.white_player_id = auth.uid() then 'white'
+    else null
+  end;
+
+  if player_side is null or room.current_turn <> player_side then
+    raise exception 'it is not your turn';
+  end if;
+
+  if exists (
+    select 1 from public.moves
+    where room_id = room.id
+      and position_x = target_x
+      and position_y = target_y
+  ) then
+    raise exception 'this position is already occupied';
+  end if;
+
+  select coalesce(max(move_number), 0)::smallint + 1
+  into new_move_number
+  from public.moves
+  where room_id = room.id;
+
+  insert into public.moves (room_id, player_id, position_x, position_y, move_number)
+  values (room.id, auth.uid(), target_x, target_y, new_move_number);
+
+  for direction_x, direction_y in values (1, 0), (0, 1), (1, 1), (1, -1)
+  loop
+    for window_start in -4..0
+    loop
+      select count(*) into stones_in_window
+      from generate_series(window_start, window_start + 4) as step(step_offset)
+      where exists (
+        select 1 from public.moves
+        where room_id = room.id
+          and player_id = auth.uid()
+          and position_x = target_x + direction_x * step.step_offset
+          and position_y = target_y + direction_y * step.step_offset
+      );
+
+      if stones_in_window = 5 then
+        won := true;
+        exit;
+      end if;
+    end loop;
+
+    exit when won;
+  end loop;
+
+  if won then
+    update public.rooms
+    set status = 'finished', winner = player_side, updated_at = now()
+    where id = room.id
+    returning * into room;
+  elsif new_move_number = 225 then
+    update public.rooms
+    set status = 'finished', winner = 'draw', updated_at = now()
+    where id = room.id
+    returning * into room;
+  else
+    update public.rooms
+    set
+      current_turn = case player_side when 'black' then 'white' else 'black' end,
+      updated_at = now()
+    where id = room.id
+    returning * into room;
+  end if;
+
+  return query
+  select new_move_number, room.status, room.current_turn, room.winner;
+end;
+$$;
+
+revoke all on function public.create_gomoku_room() from public;
+revoke all on function public.join_gomoku_room(text) from public;
+revoke all on function public.play_gomoku_move(uuid, smallint, smallint) from public;
+grant execute on function public.create_gomoku_room() to authenticated;
+grant execute on function public.join_gomoku_room(text) to authenticated;
+grant execute on function public.play_gomoku_move(uuid, smallint, smallint) to authenticated;
+
+alter publication supabase_realtime add table public.rooms;
+alter publication supabase_realtime add table public.moves;
+
+commit;

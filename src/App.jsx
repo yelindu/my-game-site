@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { games } from './gameCatalog.js'
 import GomokuGame from './games/gomoku/GomokuGame.jsx'
+import OnlineGomoku from './games/gomoku/OnlineGomoku.jsx'
 
 function Lobby({ onSelectGame }) {
   return (
@@ -71,7 +72,14 @@ function Lobby({ onSelectGame }) {
 }
 
 function App() {
-  const [activeGame, setActiveGame] = useState(null)
+  const [activeGame, setActiveGame] = useState(() => new URLSearchParams(window.location.search).has('room') ? 'gomoku-online' : null)
+
+  function returnToLobby() {
+    const url = new URL(window.location.href)
+    url.searchParams.delete('room')
+    window.history.replaceState(null, '', url)
+    setActiveGame(null)
+  }
 
   if (!activeGame) {
     return <Lobby onSelectGame={setActiveGame} />
@@ -80,15 +88,16 @@ function App() {
   return (
     <div className="site-shell">
       <header className="topbar">
-        <button className="brand brand--button" type="button" onClick={() => setActiveGame(null)} aria-label="返回首页">
+        <button className="brand brand--button" type="button" onClick={returnToLobby} aria-label="返回首页">
           <span className="brand__mark" aria-hidden="true">游</span>
           <span>游戏合集</span>
         </button>
-        <button className="nav-back" type="button" onClick={() => setActiveGame(null)}>返回大厅</button>
+        <button className="nav-back" type="button" onClick={returnToLobby}>返回大厅</button>
       </header>
 
       <main>
-        {activeGame === 'gomoku' && <GomokuGame onBack={() => setActiveGame(null)} />}
+        {activeGame === 'gomoku' && <GomokuGame onBack={returnToLobby} onOnline={() => setActiveGame('gomoku-online')} />}
+        {activeGame === 'gomoku-online' && <OnlineGomoku onBack={returnToLobby} onLocal={() => setActiveGame('gomoku')} />}
       </main>
 
       <footer>
