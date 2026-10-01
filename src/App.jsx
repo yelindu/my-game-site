@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { games } from './gameCatalog.js'
 import GomokuGame from './games/gomoku/GomokuGame.jsx'
 import OnlineGomoku from './games/gomoku/OnlineGomoku.jsx'
+import XiangqiGame from './games/xiangqi/XiangqiGame.jsx'
 
 function Lobby({ onSelectGame }) {
   return (
@@ -98,6 +99,7 @@ function App() {
       <main>
         {activeGame === 'gomoku' && <GomokuGame onBack={returnToLobby} onOnline={() => setActiveGame('gomoku-online')} />}
         {activeGame === 'gomoku-online' && <OnlineGomoku onBack={returnToLobby} onLocal={() => setActiveGame('gomoku')} />}
+        {activeGame === 'xiangqi' && <XiangqiGame onBack={returnToLobby} />}
       </main>
 
       <footer>

@@ -45,6 +45,8 @@ src/games/gomoku/
 
 在线客户端位于 `src/services/supabase.js`。五子棋房间状态和界面分别在 `src/games/gomoku/useOnlineRoom.js`、`OnlineGomoku.jsx`，复用现有棋盘，没有额外全局状态库或房间框架。
 
+中国象棋位于 `src/games/xiangqi/`：`xiangqi.js` 是纯规则函数，`XiangqiGame.jsx` 负责本地双人交互，`xiangqi.css` 绘制响应式棋盘与棋子。九宫、河界和棋盘线使用内联 SVG，不引入棋类或绘图库。
+
 ## 状态边界
 
 1. 棋盘规则是纯 JavaScript，不依赖 React 和网络，方便测试与复用。

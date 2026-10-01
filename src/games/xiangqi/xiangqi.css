@@ -1,0 +1,20 @@
+.xiangqi-board-wrap { min-width: 0; padding: 14px; border-radius: 20px; background: rgba(255, 250, 240, .58); }
+.xiangqi-board { position: relative; display: grid; grid-template-columns: repeat(9, 1fr); width: 100%; aspect-ratio: 9 / 10; border: 8px solid #a86f3d; border-radius: 8px; background: #dfb67c; box-shadow: inset 0 0 25px #52331822; touch-action: manipulation; }
+.xiangqi-lines { position: absolute; inset: 0; width: 100%; height: 100%; color: #684426; pointer-events: none; }
+.xiangqi-river { fill: #684426; font: 46px STKaiti, KaiTi, serif; }
+.xiangqi-cell { position: relative; display: grid; place-items: center; aspect-ratio: 1; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.xiangqi-cell:disabled { cursor: default; }
+.xiangqi-piece { z-index: 1; display: grid; place-items: center; width: 84%; aspect-ratio: 1; border: 2px solid currentColor; border-radius: 50%; background: radial-gradient(circle at 35% 25%, #fff9df, #ebcb94); box-shadow: 1px 3px 4px #38210e55, inset 0 0 0 3px #eed1a0; font: 700 clamp(18px, 3.3vw, 40px) STKaiti, KaiTi, serif; }
+.xiangqi-piece--red { color: #a82e25; }
+.xiangqi-piece--black { color: #25221e; }
+.xiangqi-cell--selected .xiangqi-piece { outline: 3px solid #267053; outline-offset: 2px; background: #ffedaf; }
+.xiangqi-cell--legal .xiangqi-piece { outline: 3px dashed #267053; outline-offset: 1px; }
+.xiangqi-cell--last::after { content: ''; position: absolute; inset: 6%; border: 2px solid #68442680; border-radius: 8px; }
+.xiangqi-destination { width: 22%; aspect-ratio: 1; border-radius: 50%; background: #267053; box-shadow: 0 0 0 5px #26705322; }
+.xiangqi-piece--check { outline: 3px solid #be3025; outline-offset: 2px; }
+.xiangqi-cell:focus-visible { outline: 3px solid var(--green); outline-offset: -2px; border-radius: 8px; }
+.xiangqi-selection { min-height: 3em; margin: 14px 0 0; color: var(--muted); line-height: 1.6; font-size: .9rem; }
+.turn-card--red .turn-card__stone { background: radial-gradient(circle at 35% 28%, #d16852, #9a2e25 68%); }
+.xiangqi-confirmation { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--cream); }
+.xiangqi-confirmation p { margin: 0; line-height: 1.6; }
+@media (max-width: 760px) { .xiangqi-board-wrap { padding: 6px; } .xiangqi-board { border-width: 5px; } .xiangqi-piece { font-size: clamp(18px, 5.5vw, 40px); } }
