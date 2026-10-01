@@ -1,7 +1,7 @@
--- Read-only deployment checks. Expect two protected tables, four RPCs, and two published tables.
+-- Read-only checks after the lobby upgrade: three protected tables, seven RPCs, two published tables.
 select tablename, rowsecurity
 from pg_tables
-where schemaname = 'public' and tablename in ('rooms', 'moves')
+where schemaname = 'public' and tablename in ('rooms', 'moves', 'gomoku_room_members')
 order by tablename;
 
 select p.proname, p.prosecdef as security_definer,
@@ -9,7 +9,7 @@ select p.proname, p.prosecdef as security_definer,
   has_function_privilege('anon', p.oid, 'EXECUTE') as unauthenticated_can_execute
 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
 where n.nspname = 'public'
-  and p.proname in ('create_gomoku_room', 'join_gomoku_room', 'play_gomoku_move', 'get_gomoku_snapshot')
+  and p.proname in ('create_gomoku_room', 'join_gomoku_room', 'play_gomoku_move', 'get_gomoku_snapshot', 'create_gomoku_lobby', 'enter_gomoku_lobby', 'gomoku_lobby_action')
 order by p.proname;
 
 select tablename from pg_publication_tables
@@ -18,5 +18,5 @@ order by tablename;
 
 select table_name, grantee, privilege_type
 from information_schema.role_table_grants
-where table_schema = 'public' and table_name in ('rooms', 'moves') and grantee in ('anon', 'authenticated')
+where table_schema = 'public' and table_name in ('rooms', 'moves', 'gomoku_room_members') and grantee in ('anon', 'authenticated')
 order by table_name, grantee, privilege_type;

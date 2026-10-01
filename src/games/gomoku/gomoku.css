@@ -1,0 +1,5 @@
+.gomoku-match .gomoku-board-wrap { width: min(560px,100%); margin: 16px auto; padding: 6px; background: transparent; }
+.gomoku-match .gomoku-board { border-radius: 8px; border-color: #a86f3d; background: #dfb67c; touch-action: manipulation; }
+.gomoku-match .gomoku-stone { animation: gomoku-place 180ms ease-out; }
+@keyframes gomoku-place { from { opacity: .3; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .gomoku-match .gomoku-stone { animation: none; } }

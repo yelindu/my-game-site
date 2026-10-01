@@ -43,9 +43,9 @@ src/games/gomoku/
 └─ gomoku.test.js       # 规则的最小单元测试
 ```
 
-在线客户端位于 `src/services/supabase.js`。五子棋与象棋共用 `src/services/useOnlineRoom.js` 的同步、重连与提交逻辑，以及 `src/components/OnlineRoomPanel.jsx` 的邀请入口；各游戏提供接口名称、参数及快照解码。
+在线客户端位于 `src/services/supabase.js`。五子棋与象棋共用 `src/services/useOnlineRoom.js` 的同步、重连与提交逻辑，以及 `src/components/GameHub.jsx` 的玩法入口、`RoomLobby.jsx` 的选座等候区、`useRoomEntry.jsx` 的进入与邀请逻辑；各游戏提供接口名称、参数及快照解码。
 
-中国象棋位于 `src/games/xiangqi/`：`XiangqiHub.jsx` 提供简洁玩法入口，`OnlineXiangqi.jsx` 负责选座、房主开局、观战和和棋协商；`XiangqiGame.jsx` 复用本地与在线棋盘。`pieces.js` 通过走棋历史保持棋子身份，棋子图层使用原生 CSS 位置过渡。规则和九宫棋盘仍使用纯函数与内联 SVG，不引入动画或棋类依赖。
+中国象棋位于 `src/games/xiangqi/`：`OnlineXiangqi.jsx` 负责在线走棋和和棋协商；`XiangqiGame.jsx` 复用本地与在线棋盘。`pieces.js` 通过走棋历史保持棋子身份，棋子图层使用原生 CSS 位置过渡。五子棋同样复用本地与在线棋盘，并使用 CSS 落子动画，不引入动画或棋类依赖。
 
 ## 状态边界
 

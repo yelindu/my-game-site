@@ -46,13 +46,13 @@ export default function XiangqiGame({ onBack, online, children, headerActions })
   }
   function replace(next) { setGame(next); setSelected(null); setMessage(''); setConfirmation(null) }
   return <section className="xiangqi-match" aria-label="中国象棋对局">
-    <header className="xiangqi-mini-header">
-      <button className="xiangqi-button xiangqi-button--small" onClick={onBack}>返回主页</button>
+    <header className="boardgame-mini-header">
+      <button className="boardgame-button boardgame-button--small" onClick={onBack}>返回主页</button>
       <div><h1>象棋</h1><small>{online ? `房间号：${online.room?.code}` : '本地对战'}</small></div>
       {headerActions || <span />}
     </header>
-    <p className="xiangqi-match-status" role="status">{status}</p>
-    {online && <p className="xiangqi-player-names">红方：{online.room?.red_name || '棋友'} <span>对</span> 黑方：{online.room?.black_name || '棋友'}</p>}
+    <p className="boardgame-match-status" role="status">{status}</p>
+    {online && <p className="boardgame-player-names">红方：{online.room?.red_name || '棋友'} <span>对</span> 黑方：{online.room?.black_name || '棋友'}</p>}
     <div className="xiangqi-board-wrap">
       <div className="xiangqi-board" role="grid" aria-label="九路十行中国象棋棋盘">
         <BoardLines />
@@ -73,14 +73,14 @@ export default function XiangqiGame({ onBack, online, children, headerActions })
       </div>
     </div>
     <p className="xiangqi-selection" role="status">{message || (selectedPiece ? `已选择${sideNames[selectedPiece.side]}${pieceNames[selectedPiece.side][selectedPiece.type]}` : '\u00a0')}</p>
-    {!online && <div className="xiangqi-controls">
-      <button className="xiangqi-button" disabled={!game.history.length} onClick={() => replace(undoMove(game))}>悔棋</button>
-      <button className="xiangqi-button" onClick={() => game.history.length ? setConfirmation('restart') : replace(createGame())}>重新开始</button>
-      <button className="xiangqi-button" disabled={Boolean(game.winner)} onClick={() => setConfirmation('draw')}>和棋</button>
-      {confirmation && <div className="xiangqi-confirmation" role="group" aria-label={confirmation === 'draw' ? '确认和棋' : '确认重开'}>
+    {!online && <div className="boardgame-controls">
+      <button className="boardgame-button" disabled={!game.history.length} onClick={() => replace(undoMove(game))}>悔棋</button>
+      <button className="boardgame-button" onClick={() => game.history.length ? setConfirmation('restart') : replace(createGame())}>重新开始</button>
+      <button className="boardgame-button" disabled={Boolean(game.winner)} onClick={() => setConfirmation('draw')}>和棋</button>
+      {confirmation && <div className="boardgame-confirmation" role="group" aria-label={confirmation === 'draw' ? '确认和棋' : '确认重开'}>
         <p>{confirmation === 'draw' ? '双方都同意和棋吗？' : '确定重新开始吗？'}</p>
-        <button className="xiangqi-button" onClick={() => replace(confirmation === 'draw' ? agreeDraw(game) : createGame())}>{confirmation === 'draw' ? '确认和棋' : '确认重开'}</button>
-        <button className="xiangqi-button" onClick={() => setConfirmation(null)}>取消</button>
+        <button className="boardgame-button" onClick={() => replace(confirmation === 'draw' ? agreeDraw(game) : createGame())}>{confirmation === 'draw' ? '确认和棋' : '确认重开'}</button>
+        <button className="boardgame-button" onClick={() => setConfirmation(null)}>取消</button>
       </div>}
     </div>}
     {children}

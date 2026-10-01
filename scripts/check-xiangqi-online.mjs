@@ -46,6 +46,8 @@ try {
   await assert.rejects(lobby(black, 'seat', { seat: 'red' }))
   await lobby(red, 'leave')
   await lobby(red, 'seat', { seat: 'red' })
+  await rpc(black, 'join_xiangqi_room', { invite_code: code })
+  assert.equal((await snapshot(black)).room.black_player_id, null, 'Legacy joins must not bypass host start.')
   await lobby(black, 'seat', { seat: 'black' })
   assert.equal((await snapshot(black)).room.status, 'waiting')
   await assert.rejects(lobby(black, 'start'))

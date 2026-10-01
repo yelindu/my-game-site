@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { games } from './gameCatalog.js'
 import GomokuGame from './games/gomoku/GomokuGame.jsx'
 import OnlineGomoku from './games/gomoku/OnlineGomoku.jsx'
-import XiangqiHub from './games/xiangqi/XiangqiHub.jsx'
+import XiangqiGame from './games/xiangqi/XiangqiGame.jsx'
+import OnlineXiangqi from './games/xiangqi/OnlineXiangqi.jsx'
+import GameHub from './components/GameHub.jsx'
 
 function Lobby({ onSelectGame }) {
   return (
@@ -91,30 +93,9 @@ function App() {
   }
 
   if (activeGame === 'xiangqi' || activeGame === 'xiangqi-online') {
-    return <XiangqiHub onBack={returnToLobby} initialOnline={activeGame === 'xiangqi-online'} />
+    return <GameHub name="象棋" mark="♜" LocalGame={XiangqiGame} OnlineGame={OnlineXiangqi} onBack={returnToLobby} initialOnline={activeGame === 'xiangqi-online'} />
   }
-
-  return (
-    <div className="site-shell">
-      <header className="topbar">
-        <button className="brand brand--button" type="button" onClick={returnToLobby} aria-label="返回首页">
-          <span className="brand__mark" aria-hidden="true">游</span>
-          <span>游戏合集</span>
-        </button>
-        <button className="nav-back" type="button" onClick={returnToLobby}>返回大厅</button>
-      </header>
-
-      <main>
-        {activeGame === 'gomoku' && <GomokuGame onBack={returnToLobby} onOnline={() => setActiveGame('gomoku-online')} />}
-        {activeGame === 'gomoku-online' && <OnlineGomoku onBack={returnToLobby} onLocal={() => setActiveGame('gomoku')} />}
-      </main>
-
-      <footer>
-        <span>© {new Date().getFullYear()} 我的游戏小站</span>
-        <span>Built for GitHub Pages</span>
-      </footer>
-    </div>
-  )
+  return <GameHub name="五子棋" mark="●" LocalGame={GomokuGame} OnlineGame={OnlineGomoku} onBack={returnToLobby} initialOnline={activeGame === 'gomoku-online'} />
 }
 
 export default App

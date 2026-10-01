@@ -1,0 +1,49 @@
+.boardgame-shell { width: 100%; max-width: none; min-height: 100dvh; margin: 0; padding: 20px 16px 40px; background: #ffe7c6; color: #302519; }
+.boardgame-shell h1 { margin: 0; font-size: 25px; line-height: 1.3; letter-spacing: 0; }
+.boardgame-shell button:focus-visible, .boardgame-shell input:focus-visible { outline: 3px solid #956831; outline-offset: 3px; }
+.boardgame-menu { position: relative; max-width: 800px; margin: 0 auto; padding-top: 22px; text-align: center; }
+.boardgame-menu h1 { margin-bottom: 52px; }
+.boardgame-menu h1 span { color: #b87812; }
+.boardgame-back { position: absolute; top: 0; left: 0; border: 0; padding: 6px 12px; border-radius: 20px; background: #f4f1ec; cursor: pointer; font-size: 12px; }
+.boardgame-button { min-height: 36px; padding: 8px 18px; border: 0; border-radius: 24px; background: #f3f0ed; color: #302519; box-shadow: 0 2px 4px #5943232b; cursor: pointer; font-size: 14px; }
+.boardgame-button:disabled { color: #8d929b; cursor: default; opacity: .75; }
+.boardgame-button--primary { background: #e89716; color: white; }
+.boardgame-button--small { min-height: 24px; padding: 4px 10px; font-size: 12px; }
+.boardgame-menu__buttons, .boardgame-join { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.boardgame-join { margin-top: 24px; gap: 14px; }
+.boardgame-shell input { min-width: 0; max-width: 100%; min-height: 36px; padding: 8px 10px; border: 1px solid #ead4b6; border-radius: 6px; background: white; color: #302519; font-size: 14px; box-shadow: 0 2px 3px #59432315; }
+.boardgame-join input { width: 240px; text-align: center; }
+.boardgame-mini-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 12px; width: 100%; max-width: 800px; margin: 0 auto 16px; text-align: center; }
+.boardgame-mini-header > button:first-child { justify-self: start; }
+.boardgame-mini-header > button:last-child { justify-self: end; }
+.boardgame-mini-header h1 { font-size: 22px; }
+.boardgame-mini-header small { display: block; margin-top: 4px; font-size: 12px; }
+.boardgame-room-lobby { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 4px; }
+.boardgame-seats { display: flex; gap: 30px; justify-content: center; margin-bottom: 10px; }
+.boardgame-seat-wrap { display: grid; justify-items: center; gap: 8px; font-size: 12px; }
+.boardgame-seat { position: relative; width: 54px; height: 54px; border: 1px solid #382b1e; border-radius: 50%; background: #ffe7c6; color: #302519; box-shadow: 0 2px 4px #5943232b; cursor: pointer; font-size: 13px; }
+.boardgame-seat > span { font-family: KaiTi, serif; font-size: 25px; }
+.boardgame-seat:disabled { cursor: default; opacity: 1; }
+.boardgame-seat--red { border-color: #a82e25; }
+.boardgame-seat small { position: absolute; padding: 1px 4px; border-radius: 9px; background: #557087; color: white; font-size: 10px; }
+.boardgame-seat-number { bottom: -3px; right: -2px; }
+.boardgame-host-badge { top: -5px; left: -6px; }
+.boardgame-seat .boardgame-host-badge, .boardgame-seat .boardgame-me-badge { background: #db6717; }
+.boardgame-me-badge { bottom: -3px; left: -3px; }
+.boardgame-room-status { margin: 12px 0 8px; text-align: center; font-size: 20px; }
+.boardgame-room-hint { margin: 6px 0 14px; color: #887a68; font-size: 13px; }
+.boardgame-nickname { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 22px 0 36px; width: 100%; max-width: 340px; }
+.boardgame-nickname input { width: 150px; }
+.boardgame-avatar { display: grid; place-items: center; flex-shrink: 0; width: 46px; height: 46px; border: 1px solid #382b1e; border-radius: 50%; font-size: 22px; }
+.boardgame-notice { margin: 12px auto; text-align: center; font-size: 13px; }
+.boardgame-error { color: #a82e25; }
+.boardgame-invite-link { display: block; width: min(480px,100%); margin: 12px auto; }
+.boardgame-match-status { margin: 12px 0 6px; text-align: center; font-size: 17px; }
+.boardgame-player-names { margin: 0 0 10px; text-align: center; font-size: 12px; color: #75614a; }
+.boardgame-player-names span { margin: 0 10px; }
+.boardgame-controls, .boardgame-draw-controls { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; margin: 12px auto; }
+.boardgame-confirmation { flex-basis: 100%; max-width: 360px; text-align: center; background: transparent; }
+
+.boardgame-confirmation { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; }
+.boardgame-confirmation p { margin: 0; line-height: 1.6; }
+.boardgame-seat--white { border-color: #9b968c; }
