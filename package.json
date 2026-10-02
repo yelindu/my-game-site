@@ -13,7 +13,8 @@
     "test:render": "node scripts/check-gomoku-render.mjs",
     "test:xiangqi-online": "node --env-file=.env.local scripts/check-xiangqi-online.mjs",
     "test:doudizhu-online": "node --env-file=.env.local scripts/check-doudizhu-online.mjs",
-    "test:undercover-online": "node --env-file=.env.local scripts/check-undercover-online.mjs"
+    "test:undercover-online": "node --env-file=.env.local scripts/check-undercover-online.mjs",
+    "test:go-online": "node --env-file=.env.local scripts/check-go-online.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

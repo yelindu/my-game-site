@@ -1,0 +1,28 @@
+.go-match { max-width: 800px; margin: 0 auto; }
+.go-summary,.go-hint,.go-score { text-align: center; font-size: 13px; line-height: 1.7; color: #806344; }
+.go-board { display: grid; grid-template-columns: repeat(9,minmax(0,1fr)); aspect-ratio: 1; width: min(520px,100%); margin: 20px auto; padding: 10px; border: 2px solid #a16c36; border-radius: 8px; background: #dfb67c; touch-action: manipulation; }
+.go-cell { display: grid; position: relative; place-items: center; aspect-ratio: 1; padding: 0; border: 0; border-radius: 0; background: transparent; cursor: pointer; }
+.go-cell:disabled { opacity: 1; cursor: default; }
+.go-cell::before,.go-cell::after { position: absolute; content: ''; background: #6b482d; pointer-events: none; }
+.go-cell::before { width: 100%; height: 1px; }
+.go-cell::after { width: 1px; height: 100%; }
+.go-cell--left::before { left: 50%; width: 50%; }
+.go-cell--right::before { right: 50%; width: 50%; }
+.go-cell--top::after { top: 50%; height: 50%; }
+.go-cell--bottom::after { bottom: 50%; height: 50%; }
+.go-cell:focus-visible { outline: 3px solid #956333; outline-offset: -2px; z-index: 2; }
+.go-star { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #654325; }
+.go-stone { display: grid; place-items: center; position: absolute; width: 83%; height: 83%; border-radius: 50%; z-index: 1; box-shadow: 1px 2px 3px #0005; animation: go-place 180ms ease-out; font-size: clamp(16px,4vw,28px); }
+.go-stone--black { background: radial-gradient(circle at 32% 27%,#5b5b5b,#111 70%); color: #fff; }
+.go-stone--white { background: radial-gradient(circle at 32% 27%,#fff,#e6e4dd 70%); color: #302517; }
+.go-stone--last::after { content: ''; width: 25%; height: 25%; position: absolute; border: 2px solid #da623b; border-radius: 50%; }
+.go-stone--dead { opacity: .45; }
+.go-stone--dead::after { display: none; }
+.go-territory { width: 16%; height: 16%; z-index: 1; border: 1px solid #6b482d; }
+.go-territory--1 { background: #222; }
+.go-territory--2 { background: #fff; }
+.go-score { font-size: 18px; color: #48321d; }
+.go-hint { max-width: 520px; margin: 15px auto; }
+.go-confirm { text-align: center; }
+@keyframes go-place { from { opacity: .3; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+@media(prefers-reduced-motion:reduce) { .go-stone { animation: none; } }

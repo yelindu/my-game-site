@@ -9,6 +9,8 @@ import DoudizhuGame from './games/doudizhu/DoudizhuGame.jsx'
 import OnlineDoudizhu from './games/doudizhu/OnlineDoudizhu.jsx'
 import UndercoverGame from './games/undercover/UndercoverGame.jsx'
 import OnlineUndercover from './games/undercover/OnlineUndercover.jsx'
+import GoGame from './games/go/GoGame.jsx'
+import OnlineGo from './games/go/OnlineGo.jsx'
 
 function Lobby({ onSelectGame }) {
   return (
@@ -81,7 +83,7 @@ function Lobby({ onSelectGame }) {
 function App() {
   const [activeGame, setActiveGame] = useState(() => {
     const params = new URLSearchParams(window.location.search)
-    const game = ['xiangqi', 'doudizhu', 'undercover'].includes(params.get('game')) ? params.get('game') : 'gomoku'
+    const game = ['xiangqi', 'doudizhu', 'undercover', 'go'].includes(params.get('game')) ? params.get('game') : 'gomoku'
     return params.has('room') ? `${game}-online` : null
   })
 
@@ -99,6 +101,9 @@ function App() {
 
   if (activeGame === 'undercover' || activeGame === 'undercover-online') {
     return <GameHub name="谁是卧底" mark="？" LocalGame={UndercoverGame} OnlineGame={OnlineUndercover} onBack={returnToLobby} initialOnline={activeGame === 'undercover-online'} localLabel="本地聚会" />
+  }
+  if (activeGame === 'go' || activeGame === 'go-online') {
+    return <GameHub name="围棋" mark="⚫" LocalGame={GoGame} OnlineGame={OnlineGo} onBack={returnToLobby} initialOnline={activeGame === 'go-online'} />
   }
   if (activeGame === 'doudizhu' || activeGame === 'doudizhu-online') {
     return <GameHub name="斗地主" mark="♠" LocalGame={DoudizhuGame} OnlineGame={OnlineDoudizhu} onBack={returnToLobby} initialOnline={activeGame === 'doudizhu-online'} localLabel="本地对战（电脑）" />

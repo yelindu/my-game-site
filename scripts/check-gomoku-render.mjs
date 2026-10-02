@@ -77,6 +77,21 @@ try {
   assert.match(ucLobby(),/(?<!disabled="")>开始游戏/)
   globalThis.window.location.search='?room=AB12CD34&game=undercover'
   assert.match(renderToStaticMarkup(createElement(App)),/谁是卧底/)
+  const {default:Go}=await server.ssrLoadModule('/src/games/go/GoGame.jsx')
+  const {createGame:goInitial,apply:goApply}=await server.ssrLoadModule('/src/games/go/go.js')
+  const goLocal=renderToStaticMarkup(createElement(Go,{onBack(){}}))
+  assert.equal((goLocal.match(/role="gridcell"/g)||[]).length,81)
+  assert.match(goLocal,/停一手/);assert.match(goLocal,/白方贴 7.5 目/)
+  const goOnline={room:{code:'AB12CD34',creator_id:'host'},user:{id:'observer'},player:null,connection:'connected',game:goInitial()}
+  const goObserver=()=>renderToStaticMarkup(createElement(Go,{online:goOnline}))
+  assert.equal((goObserver().match(/role="gridcell"[^>]*disabled/g)||[]).length,81)
+  goOnline.game=goApply(goApply(goApply(goInitial(),'place',1,40),'pass',2),'pass',1)
+  assert.match(goObserver(),/观战中/);assert.ok(!goObserver().includes('确认终局</button>'))
+  goOnline.player=1
+  assert.match(goObserver(),/黑方确认终局/);assert.ok(!goObserver().includes('白方确认终局</button>'))
+  globalThis.window.location.search='?room=AB12CD34&game=go'
+  const goInvite=renderToStaticMarkup(createElement(App))
+  assert.match(goInvite,/围棋/);assert.equal((goInvite.match(/role="gridcell"/g)||[]).length,0)
   console.log('PASS: both simple menus, lobbies without boards, host-only start, locked spectator board, invitations and stable xiangqi pieces.')
 } finally {
   globalThis.window = originalWindow
