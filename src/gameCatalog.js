@@ -1,4 +1,5 @@
 export const games = [
+  { id: 'undercover', name: '谁是卧底', description: '4–8 人词语推理，支持本地聚会和文字联机。', status: '可以试玩', accent: 'red', available: true },
   { id: 'doudizhu', name: '斗地主', description: '经典三人斗地主，支持电脑陪玩和邀请朋友联机。', status: '可以试玩', accent: 'blue', available: true },
   {
     id: 'gomoku',

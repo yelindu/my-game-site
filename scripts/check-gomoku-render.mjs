@@ -58,6 +58,25 @@ try {
   assert.equal((watched.match(/class="ddz-card/g) || []).length, 3)
   globalThis.window.location.search = '?room=AB12CD34&game=doudizhu'
   assert.match(renderToStaticMarkup(createElement(App)), /斗地主/)
+  const { default: Undercover } = await server.ssrLoadModule('/src/games/undercover/UndercoverGame.jsx')
+  const setup = renderToStaticMarkup(createElement(Undercover, { onBack() {} }))
+  assert.match(setup, /开始分词/)
+  assert.equal((setup.match(/aria-label="玩家\d名字"/g) || []).length, 6)
+  const undercover = { room: { code:'AB12CD34',creator_id:'host',players:[{id:'host',name:'房主'},{id:'guest',name:'朋友'},null,null] },user:{id:'host'},connection:'connected',game:{phase:'speaking',players:[{name:'房主'},{name:'朋友'},null,null],alive:[0,1],turn:0,round:1,ballotId:1,spoken:[],speeches:[],voted:[],candidates:[0,1],eliminated:[],word:'机密测试甲'} }
+  const privateView = renderToStaticMarkup(createElement(Undercover,{online:undercover}))
+  assert.match(privateView,/查看我的词语/); assert.ok(!privateView.includes('机密测试甲'))
+  undercover.user.id='observer'; undercover.game.word=null
+  const spectating = renderToStaticMarkup(createElement(Undercover,{online:undercover}))
+  assert.match(spectating,/观战中/); assert.ok(!spectating.includes('查看我的词语')&&!spectating.includes('你的描述'))
+  const eightSides=Array.from({length:8},(_,i)=>`seat${i}`)
+  const eightNames=Object.fromEntries(eightSides.map((s,i)=>[s,`${i+1}号位`]))
+  const lobbyOnline={room:{creator_id:'host',seat0_player_id:'host',seat1_player_id:'a',seat2_player_id:'b'},user:{id:'host'},connection:'connected'}
+  const ucLobby=()=>renderToStaticMarkup(createElement(RoomLobby,{online:lobbyOnline,name:'谁是卧底',sides:eightSides,names:eightNames,minPlayers:4}))
+  assert.match(ucLobby(),/3\/8 人已入座/); assert.match(ucLobby(),/disabled="">开始游戏/)
+  lobbyOnline.room.seat7_player_id='c'
+  assert.match(ucLobby(),/(?<!disabled="")>开始游戏/)
+  globalThis.window.location.search='?room=AB12CD34&game=undercover'
+  assert.match(renderToStaticMarkup(createElement(App)),/谁是卧底/)
   console.log('PASS: both simple menus, lobbies without boards, host-only start, locked spectator board, invitations and stable xiangqi pieces.')
 } finally {
   globalThis.window = originalWindow

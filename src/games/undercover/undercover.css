@@ -1,0 +1,39 @@
+.uc-game { max-width: 800px; margin: 0 auto; }
+.uc-setup,.uc-handoff { display: grid; justify-items: center; gap: 20px; max-width: 520px; margin: 40px auto; text-align: center; }
+.uc-setup label { display: flex; align-items: center; gap: 12px; }
+.uc-setup select { border: 1px solid #dbc8ad; border-radius: 8px; background: #fffaf1; padding: 8px 14px; }
+.uc-name-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+.uc-name-inputs input { width: 100%; text-align: center; }
+.uc-handoff h2 { margin: 0; font-size: 23px; }
+.uc-handoff p { margin: 0; color: #846d51; font-size: 14px; }
+.uc-status { margin: 30px 0 20px; text-align: center; font-size: 20px; }
+.uc-secret { display: grid; justify-items: center; gap: 12px; width: min(300px,100%); margin: 0 auto 26px; padding: 18px; border: 1px solid #d5b88b; border-radius: 18px; background: #fff2da; }
+.uc-secret small { color: #826a49; }
+.uc-word { display: grid; place-items: center; min-height: 42px; font-size: 30px; font-weight: bold; letter-spacing: 4px; }
+.uc-word--revealed { animation: uc-reveal 180ms ease-out; }
+.uc-players { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin: 22px 0; }
+.uc-player { display: grid; justify-items: center; gap: 7px; min-width: 0; padding: 14px 8px; border: 1px solid #dfc9a8; border-radius: 16px; background: #fff1da; color: #302519; cursor: pointer; transition: transform 150ms ease,border-color 150ms ease; }
+.uc-player:disabled { opacity: 1; cursor: default; }
+.uc-player strong { overflow-wrap: anywhere; font-size: 13px; }
+.uc-player small { color: #897455; font-size: 11px; }
+.uc-avatar { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #c8a675; border-radius: 50%; background: #ffe7c6; font-size: 20px; }
+.uc-player--active { border-color: #c6842b; background: #ffedc6; }
+.uc-player--selected { transform: translateY(-3px); border: 2px solid #c6842b; background: #fff9e9; }
+.uc-player--out { background: #eddfca; }
+.uc-player--out .uc-avatar { color: #958976; }
+.uc-result-word { font-size: 18px; }
+.uc-description { display: grid; gap: 10px; max-width: 520px; margin: 26px auto; }
+.uc-description label { text-align: center; font-size: 13px; color: #80694b; }
+.uc-description textarea { resize: vertical; min-height: 90px; padding: 12px; border: 1px solid #d7b98c; border-radius: 10px; background: #fffdf7; color: #302519; font: inherit; }
+.uc-description textarea:focus-visible { outline: 3px solid #956831; outline-offset: 3px; }
+.uc-vote-actions { margin: 24px auto; text-align: center; font-size: 14px; }
+.uc-round-result { padding: 14px; border-radius: 12px; background: #f5d9af; text-align: center; font-size: 13px; line-height: 1.7; }
+.uc-speeches { margin: 28px auto; max-width: 600px; }
+.uc-speeches h2 { font-size: 17px; text-align: center; }
+.uc-speeches p { display: grid; gap: 6px; padding: 12px 14px; border: 1px solid #e2cdac; border-radius: 12px; background: #fff1dc; }
+.uc-speeches small { color: #8b7454; font-size: 11px; }
+.uc-speeches span { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; }
+.uc-center { text-align: center; }
+@keyframes uc-reveal { from { opacity: .3; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@media(max-width:480px) { .uc-players { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; } .uc-status { font-size: 17px; } }
+@media(prefers-reduced-motion:reduce) { .uc-player { transition: none; } .uc-word--revealed { animation: none; } }

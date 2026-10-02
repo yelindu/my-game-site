@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 
-export default function RoomLobby({ online, name, sides, names, onAction, onBack, inviteButton, notice, inviteCode }) {
-  const [nickname, setNickname] = useState('棋友')
+export default function RoomLobby({ online, name, sides, names, onAction, onBack, inviteButton, notice, inviteCode, minPlayers = sides.length, defaultNickname = '棋友' }) {
+  const [nickname, setNickname] = useState(defaultNickname)
   useEffect(() => { if (online.nickname) setNickname(online.nickname) }, [online.nickname])
   const side = online.user?.id && sides.find(seat => online.room?.[`${seat}_player_id`] === online.user.id)
   const ready = online.connection === 'connected' && !online.busy
   const host = online.room?.creator_id === online.user?.id
-  const bothSeated = sides.every(seat => online.room?.[`${seat}_player_id`])
+  const seated = sides.filter(seat => online.room?.[`${seat}_player_id`]).length
+  const bothSeated = seated >= minPlayers
   return <>
     <header className="boardgame-mini-header">
       <button className="boardgame-button boardgame-button--small" onClick={onBack}>返回主页</button>
@@ -42,7 +43,7 @@ export default function RoomLobby({ online, name, sides, names, onAction, onBack
           <button className="boardgame-button boardgame-button--small" disabled={!ready || !nickname.trim()}>改名</button>
         </form>
         <button className="boardgame-button boardgame-start" disabled={!ready || !host || !bothSeated} onClick={() => onAction('start')}>开始游戏</button>
-        <p className="boardgame-room-hint">{bothSeated ? host ? sides.length === 2 ? '双方已入座，可以开始' : '三位玩家已入座，可以开始' : '等待房主开始游戏' : sides.length === 2 ? '等待另一位棋友入座' : '等待三位玩家入座'}</p>
+        <p className="boardgame-room-hint">{minPlayers !== sides.length ? `${seated}/${sides.length} 人已入座，至少 ${minPlayers} 人可开始` : bothSeated ? host ? sides.length === 2 ? '双方已入座，可以开始' : '三位玩家已入座，可以开始' : '等待房主开始游戏' : sides.length === 2 ? '等待另一位棋友入座' : '等待三位玩家入座'}</p>
       </section>}
   </>
 }

@@ -19,7 +19,7 @@
 .boardgame-mini-header h1 { font-size: 22px; }
 .boardgame-mini-header small { display: block; margin-top: 4px; font-size: 12px; }
 .boardgame-room-lobby { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 4px; }
-.boardgame-seats { display: flex; gap: 30px; justify-content: center; margin-bottom: 10px; }
+.boardgame-seats { display: flex; flex-wrap: wrap; gap: 22px 30px; max-width: min(620px,100%); justify-content: center; margin-bottom: 10px; }
 .boardgame-seat-wrap { display: grid; justify-items: center; gap: 8px; font-size: 12px; }
 .boardgame-seat { position: relative; width: 54px; height: 54px; border: 1px solid #382b1e; border-radius: 50%; background: #ffe7c6; color: #302519; box-shadow: 0 2px 4px #5943232b; cursor: pointer; font-size: 13px; }
 .boardgame-seat > span { font-family: KaiTi, serif; font-size: 25px; }
