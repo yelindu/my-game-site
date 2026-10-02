@@ -1,0 +1,40 @@
+.ddz-game { max-width: 960px; margin: 0 auto; }
+.ddz-table { margin: 20px auto 0; padding: 26px 20px 18px; border: 1px solid #dbc7a5; border-radius: 32px; background: #f6dcb4; box-shadow: inset 0 0 0 6px #ffe7c6; }
+.ddz-opponents { display: flex; justify-content: space-between; gap: 12px; }
+.ddz-player { display: grid; justify-items: center; gap: 5px; min-width: 88px; padding: 10px 14px; border: 1px solid transparent; border-radius: 18px; font-size: 13px; }
+.ddz-player--active { background: #fff3dd; border-color: #d59536; }
+.ddz-player__avatar { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #b38b54; border-radius: 50%; background: #ffe9c8; font-size: 22px; }
+.ddz-player small { color: #76562d; }
+.ddz-bottom { display: flex; justify-content: center; align-items: center; gap: 8px; margin: -48px auto 18px; min-height: 64px; font-size: 12px; }
+.ddz-bottom .ddz-card { width: 32px; height: 46px; padding: 3px; font-size: 13px; }
+.ddz-bottom small { color: #806641; }
+.ddz-hidden-bottom { font-size: 29px; color: #997442; }
+.ddz-status { margin: 28px 0 16px; text-align: center; font-size: 19px; }
+.ddz-trick { display: grid; align-content: start; justify-items: center; gap: 10px; min-height: 140px; padding-top: 6px; color: #755934; }
+.ddz-played-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; animation: ddz-play 260ms ease-out; }
+.ddz-played-cards .ddz-card { width: 43px; height: 64px; font-size: 18px; }
+.ddz-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; min-height: 38px; }
+.ddz-selection { margin: 14px 0 20px; min-height: 20px; text-align: center; color: #765f41; font-size: 13px; }
+.ddz-selection[role=alert] { color: #a32923; }
+.ddz-self { display: flex; justify-content: center; gap: 12px; margin-bottom: 8px; font-size: 13px; }
+.ddz-hand { display: flex; justify-content: center; flex-wrap: wrap; row-gap: 18px; padding: 18px 0 2px; min-height: 100px; }
+.ddz-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; flex-shrink: 0; width: 59px; height: 86px; padding: 7px; border: 1px solid #cbb894; border-radius: 7px; background: #fffdf7; color: #332d24; font-family: Georgia, serif; font-weight: bold; font-size: 22px; box-shadow: 0 2px 3px #70572d25; cursor: pointer; transition: transform 160ms ease, border-color 160ms ease; }
+.ddz-card:disabled { opacity: 1; cursor: default; }
+.ddz-card--red { color: #bd3830; }
+.ddz-hand .ddz-card { margin-left: -17px; }
+.ddz-hand .ddz-card:first-child { margin-left: 0; }
+.ddz-card--selected { transform: translateY(-14px); border-color: #d48416; background: #fff2c7; }
+@keyframes ddz-play { from { transform: translateY(32px) scale(.9); opacity: .3; } to { transform: translateY(0) scale(1); opacity: 1; } }
+@media (max-width: 600px) {
+  .ddz-table { padding: 18px 12px 14px; border-radius: 22px; }
+  .ddz-player { min-width: 64px; padding: 8px; font-size: 12px; }
+  .ddz-bottom { margin: 8px auto 12px; min-height: 48px; }
+  .ddz-status { margin-top: 16px; font-size: 17px; }
+  .ddz-trick { min-height: 118px; }
+  .ddz-hand .ddz-card { width: 43px; height: 70px; padding: 5px; font-size: 19px; margin-left: -10px; }
+  .ddz-hand .ddz-card:first-child { margin-left: 0; }
+  .ddz-played-cards .ddz-card { width: 30px; height: 48px; font-size: 13px; padding: 4px; }
+  .ddz-actions { gap: 7px; }
+  .ddz-actions .boardgame-button { padding: 8px 12px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .ddz-card { transition: none; } .ddz-played-cards { animation: none; } }

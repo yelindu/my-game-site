@@ -1,4 +1,5 @@
 export const games = [
+  { id: 'doudizhu', name: '斗地主', description: '经典三人斗地主，支持电脑陪玩和邀请朋友联机。', status: '可以试玩', accent: 'blue', available: true },
   {
     id: 'gomoku',
     name: '五子棋',

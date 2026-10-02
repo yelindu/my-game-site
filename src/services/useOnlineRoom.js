@@ -63,8 +63,8 @@ export default function useOnlineRoom(config) {
 
     const channel = supabase.channel(`${config.kind}:${roomId}`)
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: config.rooms, filter: `id=eq.${roomId}` }, sync)
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: config.moves, filter: `room_id=eq.${roomId}` }, sync)
-      .subscribe((status) => {
+    if (config.moves) channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: config.moves, filter: `room_id=eq.${roomId}` }, sync)
+    channel.subscribe((status) => {
         if (!active) return
         subscribed = status === 'SUBSCRIBED'
         if (subscribed) void sync()

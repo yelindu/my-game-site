@@ -42,7 +42,7 @@ export default function RoomLobby({ online, name, sides, names, onAction, onBack
           <button className="boardgame-button boardgame-button--small" disabled={!ready || !nickname.trim()}>改名</button>
         </form>
         <button className="boardgame-button boardgame-start" disabled={!ready || !host || !bothSeated} onClick={() => onAction('start')}>开始游戏</button>
-        <p className="boardgame-room-hint">{bothSeated ? host ? '双方已入座，可以开始' : '等待房主开始游戏' : '等待另一位棋友入座'}</p>
+        <p className="boardgame-room-hint">{bothSeated ? host ? sides.length === 2 ? '双方已入座，可以开始' : '三位玩家已入座，可以开始' : '等待房主开始游戏' : sides.length === 2 ? '等待另一位棋友入座' : '等待三位玩家入座'}</p>
       </section>}
   </>
 }

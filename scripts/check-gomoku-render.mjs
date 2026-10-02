@@ -49,6 +49,15 @@ try {
   assert.match(xiangqiInvite, /房间号：AB12CD34/)
   assert.equal((xiangqiInvite.match(/role="gridcell"/g) || []).length, 0)
   assert.ok(!xiangqiInvite.includes('悔棋一步'))
+  const { default: Doudizhu } = await server.ssrLoadModule('/src/games/doudizhu/DoudizhuGame.jsx')
+  const poker = renderToStaticMarkup(createElement(Doudizhu, { onBack() {} }))
+  assert.equal((poker.match(/class="ddz-card/g) || []).length, 17)
+  assert.match(poker, /轮到你叫分/)
+  const watched = renderToStaticMarkup(createElement(Doudizhu, { online: { room: { code: 'AB12CD34' }, user: { id: 'observer' }, connection: 'connected', game: { phase: 'playing', hand: [], remaining: [20,17,17], landlord: 0, turn: 0, bottom: [0,1,2], multiplier: 1 } } }))
+  assert.match(watched, /观战中/)
+  assert.equal((watched.match(/class="ddz-card/g) || []).length, 3)
+  globalThis.window.location.search = '?room=AB12CD34&game=doudizhu'
+  assert.match(renderToStaticMarkup(createElement(App)), /斗地主/)
   console.log('PASS: both simple menus, lobbies without boards, host-only start, locked spectator board, invitations and stable xiangqi pieces.')
 } finally {
   globalThis.window = originalWindow

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './boardGame.css'
 
-export default function GameHub({ name, mark, LocalGame, OnlineGame, onBack, initialOnline = false }) {
+export default function GameHub({ name, mark, LocalGame, OnlineGame, onBack, initialOnline = false, localLabel = '本地对战' }) {
   const [view, setView] = useState(initialOnline ? 'online' : 'menu')
   const [code, setCode] = useState('')
   const [invite, setInvite] = useState(() => new URLSearchParams(window.location.search).get('room') || null)
@@ -18,7 +18,7 @@ export default function GameHub({ name, mark, LocalGame, OnlineGame, onBack, ini
           <button className="boardgame-back" onClick={onBack}>返回大厅</button>
           <h1><span aria-hidden="true">{mark}</span> {name}</h1>
           <div className="boardgame-menu__buttons">
-            <button className="boardgame-button" onClick={() => setView('local')}>本地对战</button>
+            <button className="boardgame-button" onClick={() => setView('local')}>{localLabel}</button>
             <button className="boardgame-button boardgame-button--primary" onClick={() => { setInvite(null); setView('online') }}>创建房间</button>
           </div>
           <form className="boardgame-join" onSubmit={event => { event.preventDefault(); setInvite(code.trim().toUpperCase()); setView('online') }}>

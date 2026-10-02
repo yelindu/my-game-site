@@ -5,6 +5,8 @@ import OnlineGomoku from './games/gomoku/OnlineGomoku.jsx'
 import XiangqiGame from './games/xiangqi/XiangqiGame.jsx'
 import OnlineXiangqi from './games/xiangqi/OnlineXiangqi.jsx'
 import GameHub from './components/GameHub.jsx'
+import DoudizhuGame from './games/doudizhu/DoudizhuGame.jsx'
+import OnlineDoudizhu from './games/doudizhu/OnlineDoudizhu.jsx'
 
 function Lobby({ onSelectGame }) {
   return (
@@ -77,7 +79,8 @@ function Lobby({ onSelectGame }) {
 function App() {
   const [activeGame, setActiveGame] = useState(() => {
     const params = new URLSearchParams(window.location.search)
-    return params.has('room') ? params.get('game') === 'xiangqi' ? 'xiangqi-online' : 'gomoku-online' : null
+    const game = ['xiangqi', 'doudizhu'].includes(params.get('game')) ? params.get('game') : 'gomoku'
+    return params.has('room') ? `${game}-online` : null
   })
 
   function returnToLobby() {
@@ -92,6 +95,9 @@ function App() {
     return <Lobby onSelectGame={setActiveGame} />
   }
 
+  if (activeGame === 'doudizhu' || activeGame === 'doudizhu-online') {
+    return <GameHub name="斗地主" mark="♠" LocalGame={DoudizhuGame} OnlineGame={OnlineDoudizhu} onBack={returnToLobby} initialOnline={activeGame === 'doudizhu-online'} localLabel="本地对战（电脑）" />
+  }
   if (activeGame === 'xiangqi' || activeGame === 'xiangqi-online') {
     return <GameHub name="象棋" mark="♜" LocalGame={XiangqiGame} OnlineGame={OnlineXiangqi} onBack={returnToLobby} initialOnline={activeGame === 'xiangqi-online'} />
   }

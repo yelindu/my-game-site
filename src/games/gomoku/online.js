@@ -9,7 +9,7 @@ export function normalizeRoomCode(value) {
 export function invitationUrl(href, code, game = 'gomoku') {
   const url = new URL(href)
   url.searchParams.set('room', normalizeRoomCode(code))
-  if (game === 'xiangqi') url.searchParams.set('game', 'xiangqi')
+  if (game !== 'gomoku') url.searchParams.set('game', game)
   else url.searchParams.delete('game')
   url.hash = ''
   return url.href
@@ -53,6 +53,14 @@ export function onlineError(error) {
   if (/seat is occupied/.test(message)) return '这个座位已有人，请选择另一个位置。'
   if (/leave your seat/.test(message)) return '请先离开当前座位再换位置。'
   if (/both seats/.test(message)) return '两位玩家都入座后才能开始。'
+  if (/three seats/.test(message)) return '三位玩家都入座后才能开始。'
+  if (/not your turn/.test(message)) return '还没轮到你，请等待其他玩家。'
+  if (/invalid bid/.test(message)) return '请选择更高的叫分，或不叫。'
+  if (/invalid cards|invalid combination/.test(message)) return '这些牌不能组成有效牌型，请重新选牌。'
+  if (/cards not owned/.test(message)) return '手牌已经变化，请按最新手牌重新选牌。'
+  if (/cannot beat/.test(message)) return '需要出相同牌型且更大的牌，或炸弹、王炸。'
+  if (/cannot pass/.test(message)) return '这一轮由你先出牌，不能不出。'
+  if (/stale game/.test(message)) return '对局已经更新，请等待同步后再操作。'
   if (/only host/.test(message)) return '请等待房主开始游戏。'
   if (/lobby already started/.test(message)) return '对局已经开始，请刷新房间状态。'
   if (/invalid nickname/.test(message)) return '名字请填写 1 到 12 个字。'
