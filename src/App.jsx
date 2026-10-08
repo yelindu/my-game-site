@@ -73,6 +73,10 @@ function Lobby({ onSelectGame }) {
               <span className="game-link__icon game-link__icon--red" aria-hidden="true">鱼</span>
               <span>捕鱼杀熊</span>
             </a>
+            <a className="game-link" href="./trials/yu-chuan-qie-rou-bu-yu/index.html">
+              <span className="game-link__icon game-link__icon--blue" aria-hidden="true">渔</span>
+              <span>渔船切肉捕鱼</span>
+            </a>
           </div>
         </section>
       </div>
