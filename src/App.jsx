@@ -77,6 +77,10 @@ function Lobby({ onSelectGame }) {
               <span className="game-link__icon game-link__icon--blue" aria-hidden="true">渔</span>
               <span>渔船切肉捕鱼</span>
             </a>
+            <a className="game-link" href="./trials/hot-dog-shop/index.html">
+              <span className="game-link__icon game-link__icon--red" aria-hidden="true">热</span>
+              <span>模拟经营做热狗</span>
+            </a>
           </div>
         </section>
       </div>

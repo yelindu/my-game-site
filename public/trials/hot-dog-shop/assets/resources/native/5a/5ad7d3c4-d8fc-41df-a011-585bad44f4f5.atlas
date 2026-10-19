@@ -1,0 +1,34 @@
+
+skeleton.png
+size: 236,138
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+沙拉酱
+  rotate: false
+  xy: 2, 2
+  size: 68, 134
+  orig: 70, 136
+  offset: 1, 1
+  index: -1
+沙拉酱汁
+  rotate: true
+  xy: 141, 32
+  size: 51, 92
+  orig: 51, 93
+  offset: 0, 1
+  index: -1
+番茄酱
+  rotate: false
+  xy: 72, 2
+  size: 67, 134
+  orig: 69, 136
+  offset: 1, 1
+  index: -1
+番茄酱汁
+  rotate: true
+  xy: 141, 85
+  size: 51, 93
+  orig: 51, 93
+  offset: 0, 0
+  index: -1

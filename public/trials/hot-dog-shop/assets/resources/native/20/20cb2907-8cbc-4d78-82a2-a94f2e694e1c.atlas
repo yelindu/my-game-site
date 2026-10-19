@@ -1,0 +1,160 @@
+
+skeleton.png
+size: 466,269
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+烤面包
+  rotate: true
+  xy: 326, 3
+  size: 69, 90
+  orig: 69, 90
+  offset: 0, 0
+  index: -1
+烤面包2
+  rotate: false
+  xy: 2, 127
+  size: 92, 140
+  orig: 92, 141
+  offset: 0, 1
+  index: -1
+热气/热气_00000
+  rotate: true
+  xy: 96, 132
+  size: 8, 30
+  orig: 150, 150
+  offset: 71, 14
+  index: -1
+热气/热气_00002
+  rotate: true
+  xy: 163, 2
+  size: 24, 67
+  orig: 150, 150
+  offset: 61, 15
+  index: -1
+热气/热气_00004
+  rotate: true
+  xy: 232, 2
+  size: 36, 92
+  orig: 150, 150
+  offset: 58, 15
+  index: -1
+热气/热气_00006
+  rotate: false
+  xy: 305, 170
+  size: 41, 97
+  orig: 150, 150
+  offset: 58, 15
+  index: -1
+热气/热气_00008
+  rotate: false
+  xy: 216, 40
+  size: 48, 110
+  orig: 150, 150
+  offset: 58, 15
+  index: -1
+热气/热气_00010
+  rotate: false
+  xy: 203, 152
+  size: 51, 115
+  orig: 150, 150
+  offset: 58, 15
+  index: -1
+热气/热气_00012
+  rotate: false
+  xy: 163, 28
+  size: 51, 117
+  orig: 150, 150
+  offset: 59, 15
+  index: -1
+热气/热气_00014
+  rotate: false
+  xy: 149, 147
+  size: 52, 120
+  orig: 150, 150
+  offset: 60, 15
+  index: -1
+热气/热气_00016
+  rotate: false
+  xy: 2, 3
+  size: 52, 122
+  orig: 150, 150
+  offset: 61, 15
+  index: -1
+热气/热气_00018
+  rotate: false
+  xy: 56, 3
+  size: 52, 122
+  orig: 150, 150
+  offset: 62, 16
+  index: -1
+热气/热气_00020
+  rotate: false
+  xy: 110, 6
+  size: 51, 124
+  orig: 150, 150
+  offset: 64, 15
+  index: -1
+热气/热气_00022
+  rotate: false
+  xy: 96, 142
+  size: 51, 125
+  orig: 150, 150
+  offset: 64, 15
+  index: -1
+热气/热气_00024
+  rotate: false
+  xy: 400, 177
+  size: 50, 90
+  orig: 150, 150
+  offset: 65, 15
+  index: -1
+热气/热气_00026
+  rotate: false
+  xy: 348, 175
+  size: 50, 92
+  orig: 150, 150
+  offset: 65, 15
+  index: -1
+热气/热气_00028
+  rotate: false
+  xy: 314, 74
+  size: 49, 94
+  orig: 150, 150
+  offset: 66, 16
+  index: -1
+热气/热气_00030
+  rotate: false
+  xy: 256, 169
+  size: 47, 98
+  orig: 150, 150
+  offset: 67, 15
+  index: -1
+热气/热气_00034
+  rotate: false
+  xy: 266, 70
+  size: 46, 97
+  orig: 150, 150
+  offset: 68, 19
+  index: -1
+热气/热气_00038
+  rotate: false
+  xy: 418, 28
+  size: 46, 53
+  orig: 150, 150
+  offset: 67, 65
+  index: -1
+热气/热气_00041
+  rotate: false
+  xy: 266, 52
+  size: 41, 16
+  orig: 150, 150
+  offset: 70, 103
+  index: -1
+白面包
+  rotate: false
+  xy: 365, 83
+  size: 69, 90
+  orig: 69, 90
+  offset: 0, 0
+  index: -1

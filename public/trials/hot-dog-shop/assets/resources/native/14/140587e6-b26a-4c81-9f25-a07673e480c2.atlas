@@ -1,0 +1,90 @@
+
+skeleton.png
+size: 278,393
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+搅拌机上
+  rotate: true
+  xy: 141, 143
+  size: 131, 133
+  orig: 131, 147
+  offset: 0, 0
+  index: -1
+搅拌机底
+  rotate: true
+  xy: 2, 192
+  size: 123, 137
+  orig: 123, 137
+  offset: 0, 0
+  index: -1
+搅拌机盖
+  rotate: false
+  xy: 117, 94
+  size: 112, 47
+  orig: 113, 60
+  offset: 1, 13
+  index: -1
+搅拌机罩
+  rotate: true
+  xy: 2, 89
+  size: 101, 113
+  orig: 131, 147
+  offset: 19, 2
+  index: -1
+橘子
+  rotate: false
+  xy: 206, 29
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+橘子汁
+  rotate: false
+  xy: 2, 2
+  size: 87, 85
+  orig: 87, 85
+  offset: 0, 0
+  index: -1
+橘子汁2
+  rotate: true
+  xy: 2, 317
+  size: 36, 211
+  orig: 36, 211
+  offset: 0, 0
+  index: -1
+橘子片
+  rotate: false
+  xy: 215, 276
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: -1
+番茄
+  rotate: true
+  xy: 231, 86
+  size: 55, 45
+  orig: 56, 45
+  offset: 0, 0
+  index: -1
+番茄汁
+  rotate: false
+  xy: 117, 7
+  size: 87, 85
+  orig: 87, 85
+  offset: 0, 0
+  index: -1
+番茄汁2
+  rotate: true
+  xy: 2, 355
+  size: 36, 211
+  orig: 36, 211
+  offset: 0, 0
+  index: -1
+番茄片
+  rotate: false
+  xy: 215, 334
+  size: 61, 57
+  orig: 61, 57
+  offset: 0, 0
+  index: -1
