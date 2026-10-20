@@ -49,6 +49,10 @@ function Lobby({ onSelectGame }) {
         <section className="collection" aria-labelledby="trial-games-title">
           <h2 id="trial-games-title">试玩合集</h2>
           <div className="game-list">
+            <a className="game-link" href="./trials/link-up/index.html">
+              <span className="game-link__icon game-link__icon--blue" aria-hidden="true">连</span>
+              <span>连连看</span>
+            </a>
             <a className="game-link" href="./trials/catch-fish-kill-bears/index.html">
               <span className="game-link__icon game-link__icon--blue" aria-hidden="true">捕</span>
               <span>营地捕鱼</span>

@@ -1,0 +1,76 @@
+
+skeleton.png
+size: 894,338
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+爆点_03
+  rotate: true
+  xy: 2, 49
+  size: 112, 117
+  orig: 200, 200
+  offset: 45, 33
+  index: -1
+爆点_04
+  rotate: true
+  xy: 744, 185
+  size: 151, 148
+  orig: 200, 200
+  offset: 25, 16
+  index: -1
+爆点_05
+  rotate: false
+  xy: 394, 4
+  size: 163, 159
+  orig: 200, 200
+  offset: 19, 9
+  index: -1
+爆点_06
+  rotate: true
+  xy: 576, 163
+  size: 173, 166
+  orig: 200, 200
+  offset: 14, 5
+  index: -1
+爆点_07
+  rotate: false
+  xy: 388, 165
+  size: 186, 171
+  orig: 200, 200
+  offset: 8, 4
+  index: -1
+爆点_08
+  rotate: false
+  xy: 197, 165
+  size: 189, 171
+  orig: 200, 200
+  offset: 6, 4
+  index: -1
+爆点_09
+  rotate: false
+  xy: 2, 163
+  size: 193, 173
+  orig: 200, 200
+  offset: 4, 4
+  index: -1
+爆点_10
+  rotate: false
+  xy: 559, 2
+  size: 196, 159
+  orig: 200, 200
+  offset: 3, 17
+  index: -1
+爆点_11
+  rotate: false
+  xy: 197, 3
+  size: 195, 160
+  orig: 200, 200
+  offset: 5, 17
+  index: -1
+爆点_12
+  rotate: true
+  xy: 757, 13
+  size: 170, 126
+  orig: 200, 200
+  offset: 30, 19
+  index: -1
